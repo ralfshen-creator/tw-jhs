@@ -3,36 +3,66 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TW_JHS 國中學習網</title>
-<link rel="stylesheet" href="portal/portal.css?v=20261012a">
+<title>LVUP 學習網</title>
+<meta name="description" content="依 108 課綱與翰林版課本整理的自學網站：課程重點、圖解、測驗與錯題本。">
+<style>
+:root {
+  --bg: #f6f7fb; --card: #ffffff; --text: #1f2430; --muted: #667085; --line: #e3e6ee;
+  --primary: #2f6fed; --primary-soft: #e8efff; --ok: #138a4b; --ok-soft: #e3f6ec; --radius: 14px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #14161c; --card: #1d2029; --text: #e6e8ee; --muted: #9aa3b5; --line: #2e3340;
+    --primary: #6d9bff; --primary-soft: #23304d; --ok: #4cc38a; --ok-soft: #173326;
+  }
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--text); font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif; line-height: 1.7; font-size: 17px; }
+header { background: var(--card); border-bottom: 1px solid var(--line); }
+.bar { max-width: 880px; margin: 0 auto; padding: 14px 16px; display: flex; align-items: baseline; gap: 10px; }
+.brand { font-weight: 800; font-size: 22px; letter-spacing: .5px; }
+.brand small { font-size: 13px; color: var(--muted); font-weight: 600; margin-left: 6px; }
+main { max-width: 880px; margin: 0 auto; padding: 24px 16px 48px; }
+h1 { font-size: 26px; margin: 0 0 4px; }
+.lead { color: var(--muted); margin: 0 0 22px; }
+.stages { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+.stage { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; color: inherit; text-decoration: none; display: block; }
+a.stage { border: 2px solid var(--primary); }
+a.stage:hover, a.stage:focus-visible { background: var(--primary-soft); outline: none; }
+.stage .icon { font-size: 34px; line-height: 1; }
+.stage h2 { margin: 8px 0 2px; font-size: 22px; }
+.stage .grades { color: var(--muted); font-size: 15px; }
+.stage .what { margin: 8px 0 0; font-size: 15px; }
+.stage.soon { opacity: .75; }
+.chip { display: inline-block; font-size: 12.5px; padding: 1px 10px; border-radius: 999px; margin-top: 10px; font-weight: 700; }
+.chip.ready { background: var(--ok-soft); color: var(--ok); }
+.chip.soon { background: var(--bg); color: var(--muted); border: 1px solid var(--line); font-weight: 600; }
+footer { max-width: 880px; margin: 0 auto; padding: 0 16px 32px; color: var(--muted); font-size: 13px; }
+</style>
 </head>
 <body>
-<header><div class="bar"><span class="brand">🎒 TW_JHS 國中學習網</span><span class="brand-en">Taiwan Junior High School</span></div></header>
+<header><div class="bar"><span class="brand">⬆️ LVUP<small>學習網</small></span></div></header>
 <main>
-  <h1>選一個科目開始</h1>
-  <p class="lead">收錄會考五科（國文、英語、數學、社會、自然）和健康教育、資訊科技，依 108 課綱的領域排列，涵蓋七～九年級。已完成的科目可以點進去學習，其他科目陸續製作中。</p>
-  <div id="progress"></div>
-  <div class="legend"><span class="chip ready">已完成</span><span class="chip wip">製作中</span><span class="chip todo">尚未開始</span><span class="chip exam">會考</span>＝會考考科</div>
-  <div id="subjects"></div>
+  <h1>選擇學習階段</h1>
+  <p class="lead">一關一關往上升級：讀重點、看圖解、做測驗，答錯的題目會進錯題本，練到會為止。</p>
+  <div class="stages">
+    <div class="stage soon">
+      <div class="icon">🎈</div>
+      <h2>國小高年級</h2>
+      <div class="grades">五、六年級</div>
+      <p class="what">規劃中</p>
+      <span class="chip soon">即將推出</span>
+    </div>
+    <a class="stage" href="jhs/index.html">
+      <div class="icon">🎒</div>
+      <h2>國中</h2>
+      <div class="grades">七～九年級</div>
+      <p class="what">數學、自然科學（生物、理化、地球科學）已上線，其他科目陸續製作中</p>
+      <span class="chip ready">已上線</span>
+    </a>
+  </div>
 </main>
-<footer>課程依教育部《十二年國民基本教育課程綱要》整理；各校實際課表與版本可能不同。</footer>
-<script src="portal/subjects.js?v=20261012a"></script>
-<script>
-(function () {
-  const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-  const label = { ready: "已完成", wip: "製作中", todo: "尚未開始" };
-  const all = PORTAL.domains.flatMap(d => d.subjects);
-  const done = all.filter(s => s.status === "ready").length;
-  document.getElementById("progress").innerHTML = `<div class="progress"><b>目前進度</b>：${all.length} 個科目中已完成 ${done} 個
-    <div class="track" role="progressbar" aria-valuenow="${done}" aria-valuemin="0" aria-valuemax="${all.length}"><div class="fill" style="width:${(done / all.length * 100).toFixed(1)}%"></div></div></div>`;
-  document.getElementById("subjects").innerHTML = PORTAL.domains.map(d => `
-    <h2 class="domain">${d.icon} ${esc(d.name)}</h2>
-    <div class="grid">${d.subjects.map(s => {
-      const inner = `<span class="chip ${s.status}">${label[s.status]}</span>${s.exam ? `<span class="chip exam">會考：${esc(s.exam)}</span>` : ""}
-        <h3>${esc(s.name)}</h3><div class="meta">${esc(s.grades)}</div>${s.note ? `<div class="note">${esc(s.note)}</div>` : ""}`;
-      return s.status === "ready" && s.href ? `<a class="card" href="${esc(s.href)}">${inner}</a>` : `<div class="card ${s.status}">${inner}</div>`;
-    }).join("")}</div>`).join("");
-})();
-</script>
+<footer>課程依教育部《十二年國民基本教育課程綱要》與翰林版課本章節整理；課程重點與題目為自編內容，非課本原文。學習紀錄存在這台裝置的瀏覽器裡。</footer>
 </body>
 </html>
