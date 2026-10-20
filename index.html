@@ -5,64 +5,136 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LVUP 學習網</title>
 <meta name="description" content="依 108 課綱與翰林版課本整理的自學網站：課程重點、圖解、測驗與錯題本。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&display=swap">
 <style>
 :root {
-  --bg: #f6f7fb; --card: #ffffff; --text: #1f2430; --muted: #667085; --line: #e3e6ee;
-  --primary: #2f6fed; --primary-soft: #e8efff; --ok: #138a4b; --ok-soft: #e3f6ec; --radius: 14px;
+  --paper: #fff9ee; --grid: rgba(29, 27, 47, .055); --ink: #1d1b2f; --soft-ink: #5b5870;
+  --card: #ffffff; --sun: #ffd43b; --berry: #ff6b6b; --mint: #38d9a9; --sky: #74c0fc; --grape: #b197fc;
+  --lock: #ece8dc; --shadow: #1d1b2f;
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #14161c; --card: #1d2029; --text: #e6e8ee; --muted: #9aa3b5; --line: #2e3340;
-    --primary: #6d9bff; --primary-soft: #23304d; --ok: #4cc38a; --ok-soft: #173326;
+    --paper: #17151f; --grid: rgba(255, 255, 255, .045); --ink: #f3efe4; --soft-ink: #b4afc4;
+    --card: #232030; --lock: #2b2838; --shadow: #000;
   }
 }
 * { box-sizing: border-box; }
 html, body { margin: 0; }
-body { background: var(--bg); color: var(--text); font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif; line-height: 1.7; font-size: 17px; }
-header { background: var(--card); border-bottom: 1px solid var(--line); }
-.bar { max-width: 880px; margin: 0 auto; padding: 14px 16px; display: flex; align-items: baseline; gap: 10px; }
-.brand { font-weight: 800; font-size: 22px; letter-spacing: .5px; }
-.brand small { font-size: 13px; color: var(--muted); font-weight: 600; margin-left: 6px; }
-main { max-width: 880px; margin: 0 auto; padding: 24px 16px 48px; }
-h1 { font-size: 26px; margin: 0 0 4px; }
-.lead { color: var(--muted); margin: 0 0 22px; }
-.stages { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
-.stage { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; color: inherit; text-decoration: none; display: block; }
-a.stage { border: 2px solid var(--primary); }
-a.stage:hover, a.stage:focus-visible { background: var(--primary-soft); outline: none; }
-.stage .icon { font-size: 34px; line-height: 1; }
-.stage h2 { margin: 8px 0 2px; font-size: 22px; }
-.stage .grades { color: var(--muted); font-size: 15px; }
-.stage .what { margin: 8px 0 0; font-size: 15px; }
-.stage.soon { opacity: .75; }
-.chip { display: inline-block; font-size: 12.5px; padding: 1px 10px; border-radius: 999px; margin-top: 10px; font-weight: 700; }
-.chip.ready { background: var(--ok-soft); color: var(--ok); }
-.chip.soon { background: var(--bg); color: var(--muted); border: 1px solid var(--line); font-weight: 600; }
-footer { max-width: 880px; margin: 0 auto; padding: 0 16px 32px; color: var(--muted); font-size: 13px; }
+body {
+  color: var(--ink); font-size: 17px; line-height: 1.7;
+  font-family: "Microsoft JhengHei", "PingFang TC", "Noto Sans TC", system-ui, sans-serif;
+  background-color: var(--paper);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 26px 26px;
+}
+.wrap { max-width: 960px; margin: 0 auto; padding: 0 16px; }
+
+/* 標誌 */
+header { padding: 18px 0 0; }
+.logo { display: inline-flex; align-items: center; gap: 2px; text-decoration: none; color: #1d1b2f; font-family: "Fredoka", system-ui, sans-serif; font-weight: 700; font-size: 26px; letter-spacing: 1px; }
+.logo b { background: var(--sun); border: 2.5px solid #1d1b2f; border-radius: 10px; padding: 0 10px; box-shadow: 3px 3px 0 #1d1b2f; transform: rotate(-3deg); }
+.logo span { margin-left: 10px; font-family: inherit; font-size: 15px; color: var(--soft-ink); letter-spacing: 0; font-weight: 600; }
+
+/* 主視覺 */
+.hero { display: grid; grid-template-columns: 1.15fr .85fr; gap: 24px; align-items: center; padding: 34px 0 18px; }
+.hero h1 { font-size: clamp(30px, 6vw, 46px); line-height: 1.25; margin: 0 0 12px; font-weight: 900; }
+.mark { background: linear-gradient(transparent 58%, var(--sun) 58%, var(--sun) 92%, transparent 92%); padding: 0 2px; }
+@media (prefers-color-scheme: dark) { .mark { background: linear-gradient(transparent 58%, rgba(255, 212, 59, .55) 58%, rgba(255, 212, 59, .55) 92%, transparent 92%); } }
+.hero p { margin: 0; color: var(--soft-ink); max-width: 30em; }
+.steps-art { width: 100%; max-width: 340px; justify-self: end; }
+.steps-art .blk { stroke: var(--ink); stroke-width: 2.5; }
+.steps-art .lbl { font-family: "Fredoka", system-ui, sans-serif; font-weight: 700; font-size: 15px; fill: #1d1b2f; }
+
+/* 選關卡 */
+h2 { font-size: 22px; margin: 26px 0 14px; display: flex; align-items: center; gap: 10px; }
+h2::after { content: ""; flex: 1; border-top: 2.5px dashed var(--ink); opacity: .25; }
+.map { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; padding: 10px 0 8px; }
+.map::before { content: ""; position: absolute; left: 22%; right: 22%; top: 50%; border-top: 4px dashed var(--ink); opacity: .3; z-index: 0; }
+.stage { position: relative; z-index: 1; display: block; text-decoration: none; color: var(--ink); background: var(--card); border: 2.5px solid var(--ink); border-radius: 18px; padding: 18px 20px 20px; box-shadow: 6px 6px 0 var(--shadow); transition: transform .15s, box-shadow .15s; }
+.stage .lv { font-family: "Fredoka", system-ui, sans-serif; font-weight: 700; font-size: 14px; letter-spacing: 1px; display: inline-block; border: 2px solid var(--ink); border-radius: 8px; padding: 0 8px; background: var(--paper); }
+.stage .icon { position: absolute; right: 16px; top: -22px; font-size: 44px; filter: drop-shadow(2px 2px 0 rgba(0, 0, 0, .15)); }
+.stage h3 { font-size: 28px; margin: 10px 0 0; font-weight: 900; }
+.stage .grades { color: var(--soft-ink); font-weight: 700; }
+.stage .what { margin: 8px 0 14px; font-size: 15.5px; }
+.go { display: inline-block; font-weight: 800; border: 2.5px solid #1d1b2f; border-radius: 12px; padding: 4px 14px; background: var(--mint); color: #1d1b2f; box-shadow: 3px 3px 0 #1d1b2f; }
+a.stage { transform: rotate(1.2deg); }
+a.stage:hover, a.stage:focus-visible { transform: rotate(0) translate(-2px, -3px); box-shadow: 9px 9px 0 var(--shadow); outline: none; }
+.stage.locked { background: var(--lock); border-style: dashed; box-shadow: none; transform: rotate(-1.5deg); }
+.stage.locked h3, .stage.locked .what { color: var(--soft-ink); }
+.lock { display: inline-block; font-weight: 700; font-size: 14px; color: var(--soft-ink); border: 2px dashed var(--soft-ink); border-radius: 12px; padding: 3px 12px; }
+
+/* 怎麼升級 */
+.how { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 8px; }
+.how div { border: 2.5px solid var(--ink); border-radius: 16px; padding: 14px 16px; background: var(--card); }
+.how div:nth-child(1) { background: #fff3bf; } .how div:nth-child(2) { background: #d3f9d8; } .how div:nth-child(3) { background: #ffe3e3; }
+@media (prefers-color-scheme: dark) { .how div:nth-child(1) { background: #3a3317; } .how div:nth-child(2) { background: #173326; } .how div:nth-child(3) { background: #3a1f24; } }
+.how b { display: block; font-size: 18px; }
+.how .n { font-family: "Fredoka", system-ui, sans-serif; font-size: 13px; font-weight: 700; color: var(--soft-ink); letter-spacing: 1px; }
+.how p { margin: 4px 0 0; font-size: 15px; color: var(--soft-ink); }
+
+footer { padding: 28px 0 36px; color: var(--soft-ink); font-size: 13px; }
+
+@media (max-width: 700px) {
+  .hero { grid-template-columns: 1fr; padding-top: 22px; }
+  .steps-art { justify-self: center; max-width: 260px; order: -1; }
+  .map { grid-template-columns: 1fr; gap: 34px; padding-left: 6px; padding-right: 10px; }
+  .map::before { left: 50%; right: auto; top: 8%; bottom: 8%; border-top: 0; border-left: 4px dashed var(--ink); }
+  .how { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
-<header><div class="bar"><span class="brand">⬆️ LVUP<small>學習網</small></span></div></header>
-<main>
-  <h1>選擇學習階段</h1>
-  <p class="lead">一關一關往上升級：讀重點、看圖解、做測驗，答錯的題目會進錯題本，練到會為止。</p>
-  <div class="stages">
-    <div class="stage soon">
-      <div class="icon">🎈</div>
-      <h2>國小高年級</h2>
+<div class="wrap">
+  <header><a class="logo" href="./"><b>LV UP</b><span>學習網</span></a></header>
+
+  <section class="hero">
+    <div>
+      <h1>今天，要<span class="mark">升到第幾級</span>？</h1>
+      <p>讀重點、看圖解、做測驗。答錯的題目會收進錯題本，練到會為止——每一題都是經驗值。</p>
+    </div>
+    <svg class="steps-art" viewBox="0 0 320 220" role="img" aria-label="一階一階往上的升級階梯">
+      <rect class="blk" x="14" y="160" width="70" height="46" rx="8" fill="#74c0fc"/>
+      <rect class="blk" x="88" y="118" width="70" height="88" rx="8" fill="#38d9a9"/>
+      <rect class="blk" x="162" y="76" width="70" height="130" rx="8" fill="#ffd43b"/>
+      <rect class="blk" x="236" y="34" width="70" height="172" rx="8" fill="#ff6b6b"/>
+      <text class="lbl" x="49" y="190" text-anchor="middle">Lv.1</text>
+      <text class="lbl" x="123" y="148" text-anchor="middle">Lv.2</text>
+      <text class="lbl" x="197" y="106" text-anchor="middle">Lv.3</text>
+      <text class="lbl" x="271" y="64" text-anchor="middle">Lv.4</text>
+      <path d="M262 26 l7 -14 l7 14 l15 2 l-11 10 l3 15 l-14 -7 l-14 7 l3 -15 l-11 -10 z" fill="#ffd43b" stroke="#1d1b2f" stroke-width="2" transform="translate(-10,-10)"/>
+    </svg>
+  </section>
+
+  <h2>選一個關卡</h2>
+  <div class="map">
+    <div class="stage locked" aria-disabled="true">
+      <span class="icon" aria-hidden="true">🎈</span>
+      <span class="lv">LEVEL 1</span>
+      <h3>國小高年級</h3>
       <div class="grades">五、六年級</div>
-      <p class="what">規劃中</p>
-      <span class="chip soon">即將推出</span>
+      <p class="what">正在準備中，完成後會在這裡解鎖。</p>
+      <span class="lock">🔒 即將解鎖</span>
     </div>
     <a class="stage" href="jhs/index.html">
-      <div class="icon">🎒</div>
-      <h2>國中</h2>
+      <span class="icon" aria-hidden="true">🎒</span>
+      <span class="lv">LEVEL 2</span>
+      <h3>國中</h3>
       <div class="grades">七～九年級</div>
-      <p class="what">數學、自然科學（生物、理化、地球科學）已上線，其他科目陸續製作中</p>
-      <span class="chip ready">已上線</span>
+      <p class="what">數學、自然科學（生物、理化、地球科學）已開放，其他科目陸續加入。</p>
+      <span class="go">出發 →</span>
     </a>
   </div>
-</main>
-<footer>課程依教育部《十二年國民基本教育課程綱要》與翰林版課本章節整理；課程重點與題目為自編內容，非課本原文。學習紀錄存在這台裝置的瀏覽器裡。</footer>
+
+  <h2>怎麼升級</h2>
+  <div class="how">
+    <div><span class="n">STEP 1</span><b>📖 讀重點</b><p>每節都有條列重點、圖解和生活中的比喻。</p></div>
+    <div><span class="n">STEP 2</span><b>✏️ 做測驗</b><p>選章節練習，或來一場模擬段考、會考。</p></div>
+    <div><span class="n">STEP 3</span><b>🔁 清錯題</b><p>答錯的題目進錯題本，連續答對兩次才畢業。</p></div>
+  </div>
+
+  <footer>課程依教育部《十二年國民基本教育課程綱要》與翰林版課本章節整理；課程重點與題目為自編內容，非課本原文。學習紀錄存在這台裝置的瀏覽器裡。</footer>
+</div>
 </body>
 </html>

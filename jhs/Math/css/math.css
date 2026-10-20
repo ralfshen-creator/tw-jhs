@@ -22,3 +22,6 @@
 .example ol { margin: 6px 0 2px; padding-left: 22px; }
 .example .ans { font-weight: 700; color: var(--ok); }
 .s-tick-fill { fill: var(--text); }
+
+/* 數學站的主色（覆蓋 theme.css 的預設綠色） */
+:root { --site-accent: #ffa94d; --site-accent-soft: #fff0db; --site-accent-soft-dark: #3a2a17; }
