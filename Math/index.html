@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>國中數學學習站｜Math</title>
+<link rel="stylesheet" href="css/style.css?v=20261016a">
+<link rel="stylesheet" href="css/math.css?v=20261016a">
+<link rel="stylesheet" href="css/cloud.css?v=20261016a">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="#/">📐 國中數學<span class="brand-en">Math</span></a>
+  <button class="menu-btn" id="menuBtn" aria-label="選單">☰</button>
+  <nav id="nav">
+    <a href="#/">首頁</a>
+    <a href="#/lessons">課程</a>
+    <a href="#/formulas">公式卡</a>
+    <a href="#/quiz">測驗</a>
+    <a href="#/wrong">錯題本</a>
+    <a href="#/stats">學習紀錄</a>
+    <a href="#/bank">題庫 / 匯入</a>
+    <a href="#/account" id="accountLink">👤 登入</a>
+    <a href="../index.html" id="portalLink" class="portal-link" hidden>🎒 全部科目</a>
+  </nav>
+</header>
+
+<main id="app"></main>
+<script>
+  // 放在 TW_JHS 總入口裡（…/Math/）時，才顯示回到全部科目的連結；單獨上線時不顯示
+  if (location.pathname.indexOf("/Math/") >= 0) document.getElementById("portalLink").hidden = false;
+</script>
+
+<footer class="foot">
+  章節依 108 課綱、翰林版國中數學編排整理；課程重點與內建題目為自編內容，非課本原文。
+  學習紀錄存在這台電腦的瀏覽器裡，換電腦前請到「題庫 / 匯入」備份。
+</footer>
+
+<script src="data/site.js?v=20261016a"></script>
+<script src="data/figures.js?v=20261016a"></script>
+<script src="data/curriculum.js?v=20261016a"></script>
+<script src="data/curriculum2.js?v=20261016a"></script>
+<script src="data/curriculum3.js?v=20261016a"></script>
+<script src="data/concepts.js?v=20261016a"></script>
+<script src="data/questions.js?v=20261016a"></script>
+<script src="data/questions2.js?v=20261016a"></script>
+<script src="data/questions3.js?v=20261016a"></script>
+<script src="js/storage.js?v=20261016a"></script>
+<script src="js/importer.js?v=20261016a"></script>
+<script src="js/firebase-config.js?v=20261016a"></script>
+<script src="js/cloud.js?v=20261016a"></script>
+<script src="js/app.js?v=20261016a"></script>
+</body>
+</html>

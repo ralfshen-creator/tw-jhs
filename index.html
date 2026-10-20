@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TW_JHS 國中學習網</title>
+<link rel="stylesheet" href="portal/portal.css?v=20261012a">
+</head>
+<body>
+<header><div class="bar"><span class="brand">🎒 TW_JHS 國中學習網</span><span class="brand-en">Taiwan Junior High School</span></div></header>
+<main>
+  <h1>選一個科目開始</h1>
+  <p class="lead">收錄會考五科（國文、英語、數學、社會、自然）和健康教育、資訊科技，依 108 課綱的領域排列，涵蓋七～九年級。已完成的科目可以點進去學習，其他科目陸續製作中。</p>
+  <div id="progress"></div>
+  <div class="legend"><span class="chip ready">已完成</span><span class="chip wip">製作中</span><span class="chip todo">尚未開始</span><span class="chip exam">會考</span>＝會考考科</div>
+  <div id="subjects"></div>
+</main>
+<footer>課程依教育部《十二年國民基本教育課程綱要》整理；各校實際課表與版本可能不同。</footer>
+<script src="portal/subjects.js?v=20261012a"></script>
+<script>
+(function () {
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const label = { ready: "已完成", wip: "製作中", todo: "尚未開始" };
+  const all = PORTAL.domains.flatMap(d => d.subjects);
+  const done = all.filter(s => s.status === "ready").length;
+  document.getElementById("progress").innerHTML = `<div class="progress"><b>目前進度</b>：${all.length} 個科目中已完成 ${done} 個
+    <div class="track" role="progressbar" aria-valuenow="${done}" aria-valuemin="0" aria-valuemax="${all.length}"><div class="fill" style="width:${(done / all.length * 100).toFixed(1)}%"></div></div></div>`;
+  document.getElementById("subjects").innerHTML = PORTAL.domains.map(d => `
+    <h2 class="domain">${d.icon} ${esc(d.name)}</h2>
+    <div class="grid">${d.subjects.map(s => {
+      const inner = `<span class="chip ${s.status}">${label[s.status]}</span>${s.exam ? `<span class="chip exam">會考：${esc(s.exam)}</span>` : ""}
+        <h3>${esc(s.name)}</h3><div class="meta">${esc(s.grades)}</div>${s.note ? `<div class="note">${esc(s.note)}</div>` : ""}`;
+      return s.status === "ready" && s.href ? `<a class="card" href="${esc(s.href)}">${inner}</a>` : `<div class="card ${s.status}">${inner}</div>`;
+    }).join("")}</div>`).join("");
+})();
+</script>
+</body>
+</html>

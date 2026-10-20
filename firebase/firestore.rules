@@ -1,0 +1,28 @@
+rules_version = '2';
+
+// TW_JHS 國中學習網：每個人只能讀寫自己的學習紀錄。
+// 資料位置：users/{uid}/sites/{站代號，例如 pc、ma}/keys/{紀錄名稱}
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isOwner(uid) {
+      return request.auth != null && request.auth.uid == uid;
+    }
+
+    match /users/{uid}/sites/{site} {
+      allow read, delete: if isOwner(uid);
+      allow create, update: if isOwner(uid) && site.size() <= 20;
+
+      match /keys/{key} {
+        allow read, delete: if isOwner(uid);
+        // 每筆紀錄是一段 JSON 文字，限制大小避免被塞爆
+        allow create, update: if isOwner(uid)
+          && key.size() <= 40
+          && request.resource.data.v is string
+          && request.resource.data.v.size() <= 900000;
+      }
+    }
+
+    // 其他位置一律不開放
+  }
+}
