@@ -5,7 +5,7 @@
 ## 結構
 
 ```
-LVUP\                    網站根目錄（GitHub 儲存庫 tw-jhs）
+LVUP\                    網站根目錄（GitHub 儲存庫 tw-lvup）
 ├─ index.html            首頁：選擇學習階段
 ├─ jhs\                  國中（七～九年級）。說明見 jhs\README.md
 │   ├─ index.html        國中的科目總覽

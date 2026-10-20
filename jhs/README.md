@@ -57,7 +57,7 @@ jhs\
 
 ## 四、上線方式
 
-- **整個 LVUP 一起上線**（建議）：GitHub 儲存庫 `ralfshen-creator/tw-jhs` 的根目錄就是 LVUP 首頁，國中在 `/jhs/`，數學在 `/jhs/Math/`，自然科學在 `/jhs/Science/PhysChem_Learning/`。各站上方的「🎒 全部科目」回到國中總覽，國中總覽的「⬆️ LVUP」回到首頁
+- **整個 LVUP 一起上線**（建議）：GitHub 儲存庫 `ralfshen-creator/tw-lvup` 的根目錄就是 LVUP 首頁，國中在 `/jhs/`，數學在 `/jhs/Math/`，自然科學在 `/jhs/Science/PhysChem_Learning/`。各站上方的「🎒 全部科目」回到國中總覽，國中總覽的「⬆️ LVUP」回到首頁
 - **原本的理化網站**（physchem-buddy）照舊：只拖 `Science\PhysChem_Learning` 資料夾。單獨上線時不會顯示「全部科目」連結
 - 注意：學習紀錄存在各網址自己的瀏覽器空間。換到總入口網址後，可以先在舊網站「題庫 / 匯入」下載備份，再到新網址還原
 
