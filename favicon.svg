@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- LVUP 分頁小圖示：黃色貼紙＋「LV」＋往上的箭頭 -->
+  <rect x="7" y="7" width="54" height="54" rx="13" fill="#1d1b2f"/>
+  <rect x="3" y="3" width="54" height="54" rx="13" fill="#ffd43b" stroke="#1d1b2f" stroke-width="4"/>
+  <g fill="none" stroke="#1d1b2f" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M13 22 V45 H24"/>
+    <path d="M29 26 L36 45 L43 26"/>
+  </g>
+  <path d="M47 23 V11 M41.5 16.5 L47 11 L52.5 16.5" fill="none" stroke="#ff6b6b" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
