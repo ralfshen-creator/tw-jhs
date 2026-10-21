@@ -2,7 +2,7 @@
  * 雲端帳號與同步（Firebase）。
  * - js/firebase-config.js 沒有填設定時，整個功能關閉，網站照舊只把紀錄存在這台電腦。
  * - 登入方式：Google，或電子郵件＋密碼（可寄信重設密碼）。密碼由 Firebase 保管，網站碰不到。
- * - 雲端位置：users/{uid}/sites/{站代號}/keys/{紀錄名稱}，安全規則只允許本人讀寫（TW_JHS/firebase/firestore.rules）。
+ * - 雲端位置：users/{uid}/sites/{站代號}/keys/{紀錄名稱}，安全規則只允許本人讀寫（jhs/firebase/firestore.rules）。
  * - 本機紀錄會標記是哪個帳號的（{前綴}owner），避免同學共用電腦時把別人的紀錄併進自己的帳號。
  * 這個檔案在每個科目站各放一份，內容相同；改的時候要一起改。
  */
