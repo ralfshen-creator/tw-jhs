@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<title>LVUP｜國小高年級</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&display=swap">
+<link rel="stylesheet" href="portal/portal.css?v=20261021c">
+</head>
+<body>
+<div class="wrap">
+  <header><div class="top"><a class="up" href="../index.html" title="回 LVUP 首頁">LV UP</a><span class="where">🎈 國小高年級<small>五、六年級</small></span></div></header>
+
+  <section class="intro">
+    <div>
+      <h1>選一科，<span class="mark">開始闖關</span></h1>
+      <p class="lead">國語、英語、數學、社會、自然五科，版本跟學校的課本一樣（標在每一科上）。亮起來的可以點進去，其他的正在準備中。</p>
+    </div>
+    <div id="progress"></div>
+  </section>
+  <div class="legend"><span class="chip ready">已開放</span><span class="chip wip">製作中</span><span class="chip todo">還沒開始</span><span class="chip exam">康軒</span>＝課本版本</div>
+
+  <div id="subjects"></div>
+
+  <footer>課程依教育部《十二年國民基本教育課程綱要》與各科課本版本整理；課程重點與題目為自編內容，非課本原文。</footer>
+</div>
+<script src="portal/subjects.js?v=20261021a"></script>
+<script>
+(function () {
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const label = { ready: "已開放", wip: "🛠 製作中", todo: "🔒 還沒開始" };
+  // 每個領域一個顏色（依 subjects.js 的領域名稱）
+  const color = { "語文": "#ff8787", "數學": "#ffa94d", "社會": "#74c0fc", "自然科學": "#63e6be", "科技": "#b197fc", "健康與體育": "#ffd43b" };
+  const all = PORTAL.domains.flatMap(d => d.subjects);
+  const done = all.filter(s => s.status === "ready").length;
+  document.getElementById("progress").innerHTML = `<div class="xp">
+    <div class="xp-top"><span>已解鎖科目</span><span class="lv">${done}<small>／${all.length}</small></span></div>
+    <div class="track" role="progressbar" aria-label="已開放的科目" aria-valuenow="${done}" aria-valuemin="0" aria-valuemax="${all.length}"><div class="fill" style="width:${(done / all.length * 100).toFixed(1)}%"></div></div></div>`;
+  document.getElementById("subjects").innerHTML = PORTAL.domains.map(d => {
+    const c = color[d.name] || "#dee2e6";
+    return `<div class="domain" style="--c:${c}"><h2>${d.icon} ${esc(d.name)}</h2><span class="count">${d.subjects.length} 科</span></div>
+    <div class="grid" style="--c:${c}">${d.subjects.map(s => {
+      const open = s.status === "ready" && s.href;
+      const inner = `<h3>${esc(s.name)}</h3><div class="meta">${esc(s.grades)}</div>${s.note ? `<p class="note">${esc(s.note)}</p>` : ""}
+        <div class="foot"><span>${s.publisher ? `<span class="chip exam">${esc(s.publisher)}</span> ` : ""}<span class="chip ${s.status}">${label[s.status]}</span></span>${open ? '<span class="go">開始 →</span>' : ""}</div>`;
+      return open ? `<a class="subj" href="${esc(s.href)}">${inner}</a>` : `<div class="subj locked">${inner}</div>`;
+    }).join("")}</div>`;
+  }).join("");
+})();
+</script>
+</body>
+</html>

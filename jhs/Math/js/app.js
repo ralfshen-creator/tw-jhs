@@ -2,7 +2,10 @@
   const $app = document.getElementById("app");
   const LETTERS = ["A", "B", "C", "D", "E", "F"];
   const TYPE_NAME = { single: "單選", multi: "多選", tf: "是非", fill: "填充" };
-  const MISC = { id: "misc", no: "", title: "未分類 / 綜合（會考、模擬考）", subject: "mix", termId: "misc", termName: "其他" };
+  // 課本版本（例如翰林、康軒）；國小沒有會考時 SITE.capRange 留空，首頁就不出現「會考」目標
+  const PUB = window.SITE.publisher || "翰林";
+  const MISC_NAME = window.SITE.capRange ? "未分類 / 綜合（會考、模擬考）" : "未分類 / 綜合（考卷、練習卷）";
+  const MISC = { id: "misc", no: "", title: MISC_NAME, subject: "mix", termId: "misc", termName: "其他" };
 
   const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c =>
     ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -126,6 +129,13 @@
   // 把「數字（或分數）＋單位」拆開；只用正規表示式，不用 eval。拆不出數字時回傳 null
   function parseNumber(s) {
     const t = s.replace(/^[a-z]=/, "").replace(/(\d),(?=\d{3}(\D|$))/g, "$1");
+    // 帶分數：2又7/10
+    const mx = t.match(/^([+-]?)(\d+)又(\d+)\/(\d+)(.*)$/);
+    if (mx) {
+      const d = parseInt(mx[4], 10), n = parseInt(mx[3], 10);
+      if (!d) return null;
+      return { value: (mx[1] === "-" ? -1 : 1) * (parseInt(mx[2], 10) + n / d), unit: mx[5], frac: n < d ? { n: mx[3], d } : { n: "x", d } };
+    }
     const m = t.match(/^([+-]?)(\d+(?:\.\d*)?|\.\d+)(?:\/(\d+))?(.*)$/);
     if (!m) return null;
     const n = parseFloat(m[2]), d = m[3] ? parseInt(m[3], 10) : 1;
@@ -134,7 +144,7 @@
   }
   const gcd = (a, b) => (b ? gcd(b, a % b) : a);
   // 填充題的判定。題目可用 answerFormat 指定：
-  //   （不填）數值題比數值、可帶標準答案列出的單位：5、5.0、５ 都算對；文字題比字串
+  //   （不填）數值題比數值、可帶標準答案列出的單位：5、5.0、５ 都算對；文字題比字串；帶分數寫成 2又7/10
   //   "fraction-simplest"  數值要相等，而且要寫成最簡分數
   //   "exact"              只比字串（例如有效位數、估計值要照格式寫的題目）
   function fillMatches(q, accepted, given) {
@@ -164,11 +174,12 @@
   }
 
   // ================= 首頁 =================
-  const GOALS = { preview: "預習", review: "本章複習", exam: "段考", cap: "會考" };
+  const GOALS = Object.assign({ preview: "預習", review: "本章複習", exam: "段考" }, SITE.capRange ? { cap: "會考" } : {});
   function profile() {
     const p = Object.assign({ grade: SITE.defaultGrade, half: "上", goal: window.EXAM_FOCUS ? "exam" : "review" }, Store.profile() || {});
     if (!SITE.grades.includes(+p.grade)) { p.grade = SITE.defaultGrade; p.half = "上"; }
     if (p.half !== "上" && p.half !== "下") p.half = "上";
+    if (!GOALS[p.goal]) p.goal = "review";
     return p;
   }
   function seg(k, v, label, cur) {
@@ -253,14 +264,14 @@ ${weak.length ? `
       const f = window.EXAM_FOCUS;
       if (f && f.chapters.every(id => chapterById(id).termId === termId)) return examCard() + chapterList;
       return `<div class="card exam-card"><h2 style="margin-top:0">📝 ${term ? esc(term.name) : ""}段考準備</h2>
-  <p>這學期的段考範圍還沒設定，可以先選要考的章節練習（只出翰林核心題）。</p>
+  <p>這學期的段考範圍還沒設定，可以先選要考的章節練習（只出${esc(PUB)}核心題）。</p>
   <a class="btn" href="#/quiz?ch=${term ? term.chapters.map(c => c.id).join(",") : ""}&purpose=core">選章節練習</a>
   <p class="small muted">家長或老師可以在 data/curriculum.js 的 EXAM_FOCUS 設定段考範圍，這裡就會出現模擬段考。</p></div>${chapterList}`;
     }
     // 會考
     const capPool = Store.allQuestions().filter(q => SITE.capRange.test(q.chapter) && !q.supplement);
     return `<div class="card exam-card"><h2 style="margin-top:0">🎯 會考綜合練習</h2>
-  <p>從${esc(SITE.capRangeName)}所有章節的<b>翰林核心題</b>隨機出 ${SITE.capQuestions} 題，限時 ${SITE.capMinutes} 分鐘。題庫共 ${capPool.length} 題。</p>
+  <p>從${esc(SITE.capRangeName)}所有章節的<b>${esc(PUB)}核心題</b>隨機出 ${SITE.capQuestions} 題，限時 ${SITE.capMinutes} 分鐘。題庫共 ${capPool.length} 題。</p>
   <p class="small muted">這是用本站自編題目做的綜合練習，<b>不是正式會考題</b>，題型與難度不代表會考。${esc(SITE.capNote || "")}會考考古題可以到「題庫 / 匯入」加進來，歸到「未分類 / 綜合」後一起練。</p>
   <button class="btn" data-action="cap-exam">開始會考綜合練習</button></div>
   ${weakByTerm()}`;
@@ -283,7 +294,7 @@ ${weak.length ? `
     return `
 <div class="card exam-card">
   <h2>📝 段考衝刺：${esc(f.title)}</h2>
-  <p class="muted">範圍：${chs.map(c => esc(c.no + " " + c.title)).join("、")}　・　翰林核心題 ${pool.length} 題</p>
+  <p class="muted">範圍：${chs.map(c => esc(c.no + " " + c.title)).join("、")}　・　${esc(PUB)}核心題 ${pool.length} 題</p>
   <ol class="checklist">
     ${chs.map(c => `<li>讀 <a href="#/lesson/${c.id}">${esc(c.no + " " + c.title)}</a> ${statusTags(chapterStatus(c.id, cs, read, visits), c)}</li>`).join("")}
     <li>看 <a href="#/formulas">公式卡</a>，${esc(SITE.formulasTip)}</li>
@@ -336,7 +347,7 @@ ${back ? `<div class="back-bar">${back}<span class="small muted">讀完這個觀
 <p class="small"><a href="#/lessons">← 課程</a> ／ ${esc(c.termName)}</p>
 <h1>${esc(c.no)} ${esc(c.title)} ${subjectTag(c.subject)}</h1>
 <p class="muted">${esc(c.summary)}</p>
-${hasSupp(c) ? '<div class="small muted" style="margin-bottom:12px">📘 本章有紫色虛線框的<b>補充教材</b>（其他版本才有的內容，已標示版本），段考以翰林版為準。</div>' : ""}
+${hasSupp(c) ? '<div class="small muted" style="margin-bottom:12px">📘 本章有紫色虛線框的<b>補充教材</b>（其他版本才有的內容，已標示版本），段考以${esc(PUB)}版為準。</div>' : ""}
 <div class="lesson-layout">
   <aside class="toc card">
     ${c.checklist ? `<a href="javascript:void 0" data-action="scroll" data-target="sec-check">必會重點</a>` : ""}
@@ -354,7 +365,7 @@ ${hasSupp(c) ? '<div class="small muted" style="margin-bottom:12px">📘 本章�
       <label><input type="checkbox" data-action="mark-read" data-id="${c.id}" ${read[c.id] ? "checked" : ""}> 我讀完這一章了</label>
       <span class="small muted">（讀完不等於已掌握：這章答過 ${MASTER_MIN} 題次以上、正確率 ${MASTER_PCT}% 以上才算已掌握）</span>
       <span class="spacer"></span>
-      <a class="btn" href="#/quiz?ch=${c.id}&purpose=core">練習本章（翰林核心 ${qCount} 題）</a>
+      <a class="btn" href="#/quiz?ch=${c.id}&purpose=core">練習本章（${esc(PUB)}核心 ${qCount} 題）</a>
     </div>
     <div class="row">
       ${prev ? `<a class="btn ghost small" href="#/lesson/${prev.id}">← ${esc(prev.title)}</a>` : ""}
@@ -515,7 +526,7 @@ ${cap || notes.length ? `<div class="lb-notes">${cap ? `<div>${esc(cap)}</div>` 
       const core = all.filter(q => !q.supplement).length, supp = all.length - core;
       const avail = f.purpose === "core" ? core : f.purpose === "supp" ? supp : all.length;
       const which = f.purpose === "core" ? "只出核心題" : f.purpose === "supp" ? "只出補充題" : "核心＋補充都出";
-      html += `<div>符合條件的題目：翰林核心 <b>${core}</b> 題、補充 <b>${supp}</b> 題（${which}），可用 <b>${avail}</b> 題。</div>`;
+      html += `<div>符合條件的題目：${esc(PUB)}核心 <b>${core}</b> 題、補充 <b>${supp}</b> 題（${which}），可用 <b>${avail}</b> 題。</div>`;
       if (!avail) problems.push("這個條件下沒有題目，換個章節、題型或來源試試。");
       else if (!f.qn.error) {
         const n = Math.min(f.qn.value, avail);
@@ -590,7 +601,7 @@ ${resumeBanner()}
     ${Object.keys(TYPE_NAME).map(t => `<label><input type="checkbox" name="tp" value="${t}" checked> ${TYPE_NAME[t]}</label>`).join("")}
   </div>
   <div style="margin-bottom:10px"><b>目的：</b>
-    <label class="purpose"><input type="radio" name="purpose" value="core" ${purpose === "core" ? "checked" : ""}> <b>翰林段考複習</b>：只出翰林版核心題</label>
+    <label class="purpose"><input type="radio" name="purpose" value="core" ${purpose === "core" ? "checked" : ""}> <b>${esc(PUB)}段考複習</b>：只出${esc(PUB)}版核心題</label>
     <label class="purpose"><input type="radio" name="purpose" value="all" ${purpose === "all" ? "checked" : ""}> <b>跨版本加強</b>：核心題＋其他版本的補充題</label>
     <label class="purpose"><input type="radio" name="purpose" value="supp" ${purpose === "supp" ? "checked" : ""}> 只練補充教材題</label>
   </div>
@@ -616,7 +627,7 @@ ${resumeBanner()}
     const f = setupFilters();
     const pool = setupPool(f).filter(q => f.purpose === "all" || (f.purpose === "supp" ? !!q.supplement : !q.supplement));
     const picked = pickQuestions(pool, f.qn.value, f.order);
-    const title = f.purpose === "core" ? "翰林段考複習" : f.purpose === "supp" ? "補充教材練習" : "跨版本加強";
+    const title = f.purpose === "core" ? PUB + "段考複習" : f.purpose === "supp" ? "補充教材練習" : "跨版本加強";
     beginQuiz(picked, { mode: f.mode, timeLimitSec: f.mode === "exam" ? f.tl.value * 60 : 0, chapters: f.chs, title });
   }
 
@@ -944,7 +955,7 @@ ${attempts.slice(0, 50).map(a => `<tr><td>${fmtDate(a.date)}</td>
   function chapterOptions(selected) {
     return CURRICULUM.terms.map(t => `<optgroup label="${esc(t.name)}">${t.chapters.map(c =>
       `<option value="${c.id}" ${c.id === selected ? "selected" : ""}>${esc(c.id + " " + c.title)}</option>`).join("")}</optgroup>`).join("") +
-      `<option value="misc" ${selected === "misc" ? "selected" : ""}>misc 未分類 / 綜合（會考、模擬考）</option>`;
+      `<option value="misc" ${selected === "misc" ? "selected" : ""}>misc ${MISC_NAME}</option>`;
   }
 
   function viewBank() {

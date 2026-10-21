@@ -1,25 +1,27 @@
 ﻿# LVUP 學習網
 
-給孩子自學用的網站：依 108 課綱與翰林版課本整理課程重點、圖解、測驗與錯題本。
+給孩子自學用的網站：依 108 課綱與孩子學校使用的課本版本，整理課程重點、圖解、測驗與錯題本。國中用翰林版；國小各科版本見 `es\README.md`。
 
 ## 結構
 
 ```
 LVUP\                    網站根目錄（GitHub 儲存庫 tw-lvup）
 ├─ index.html            首頁：選擇學習階段
+├─ es\                   國小高年級（五、六年級）。說明見 es\README.md
+│   ├─ index.html        國小的科目總覽
+│   └─ Math\             數學學習站（康軒版五年級）
 ├─ jhs\                  國中（七～九年級）。說明見 jhs\README.md
 │   ├─ index.html        國中的科目總覽
 │   ├─ Math\             數學學習站
 │   ├─ Science\          自然科學學習站（生物、理化、地科）
 │   └─ …                 其他科目的資料夾
-└─ （之後）國小高年級      五、六年級，規劃中
 ```
 
-## 新增「國小高年級」時要注意
+## 共用的學習引擎
 
-- 在根目錄新增一個資料夾（例如 `elem\`），首頁 `index.html` 那張「國小高年級」卡片改成連結到它。
-- **學習紀錄的前綴不能和國中重複**：國中數學用 `ma.`、自然用 `pc.`。國小的科目要用不同的前綴（例如 `ema.`），寫在各站的 `data/site.js` 的 `storagePrefix`，紀錄才不會混在一起。
-- 學習引擎（`js/app.js`、`js/storage.js`、`js/cloud.js`）可以直接沿用國中各站的檔案。
+- 每個學習站的 `js/app.js`、`js/storage.js`、`js/cloud.js` 內容相同，改的時候要全部一起改（目前：`es\Math`、`jhs\Math`、`jhs\Science\PhysChem_Learning`）。
+- 科目差異寫在各站的 `data/site.js`：課本版本 `publisher`（預設翰林）、有沒有會考 `capRange`（國小填 `null`）、學習紀錄前綴 `storagePrefix`。
+- **學習紀錄的前綴不能重複**：國中數學 `ma.`、自然 `pc.`、國小數學 `esma.`。新增學習站時，也要把前綴加進首頁 `js\home-auth.js` 的 `SITE_PREFIXES`（登出時才會清掉）。
 
 ## 上線
 

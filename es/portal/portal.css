@@ -1,0 +1,88 @@
+/* 國中科目總覽：和 LVUP 首頁同一套「筆記本＋貼紙」風格 */
+:root {
+  --paper: #fff9ee; --grid: rgba(29, 27, 47, .055); --ink: #1d1b2f; --soft-ink: #5b5870;
+  --card: #ffffff; --sun: #ffd43b; --mint: #38d9a9; --lock: #f1ede2; --shadow: #1d1b2f;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #17151f; --grid: rgba(255, 255, 255, .045); --ink: #f3efe4; --soft-ink: #b4afc4;
+    --card: #232030; --lock: #201e2b; --shadow: #000;
+  }
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  color: var(--ink); font-size: 17px; line-height: 1.7;
+  font-family: "Microsoft JhengHei", "PingFang TC", "Noto Sans TC", system-ui, sans-serif;
+  background-color: var(--paper);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 26px 26px;
+}
+.wrap { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
+
+/* 頂部 */
+header { padding: 16px 0 0; }
+.top { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.up { font-family: "Fredoka", system-ui, sans-serif; font-weight: 700; font-size: 17px; letter-spacing: .5px; text-decoration: none; color: #1d1b2f; background: var(--sun); border: 2.5px solid #1d1b2f; border-radius: 10px; padding: 0 10px; box-shadow: 3px 3px 0 #1d1b2f; transform: rotate(-3deg); }
+.up:hover, .up:focus-visible { transform: rotate(0); outline: none; }
+.where { font-weight: 800; font-size: 18px; }
+.where small { color: var(--soft-ink); font-weight: 600; font-size: 13px; margin-left: 6px; }
+
+/* 標題與經驗值 */
+.intro { display: grid; grid-template-columns: 1fr 340px; gap: 24px; align-items: end; padding: 26px 0 6px; }
+h1 { font-size: clamp(28px, 5vw, 40px); line-height: 1.25; margin: 0 0 8px; font-weight: 900; }
+.mark { background: linear-gradient(transparent 58%, var(--sun) 58%, var(--sun) 92%, transparent 92%); padding: 0 2px; }
+@media (prefers-color-scheme: dark) { .mark { background: linear-gradient(transparent 58%, rgba(255, 212, 59, .55) 58%, rgba(255, 212, 59, .55) 92%, transparent 92%); } }
+.lead { color: var(--soft-ink); margin: 0; }
+.xp { background: var(--card); border: 2.5px solid var(--ink); border-radius: 16px; padding: 12px 16px 14px; box-shadow: 5px 5px 0 var(--shadow); }
+.xp-top { display: flex; justify-content: space-between; align-items: baseline; font-weight: 800; }
+.xp-top .lv { font-family: "Fredoka", system-ui, sans-serif; font-size: 22px; }
+.xp-top .lv small { font-size: 13px; color: var(--soft-ink); margin-left: 2px; }
+.track { height: 16px; border: 2.5px solid var(--ink); border-radius: 999px; overflow: hidden; margin-top: 6px; background: var(--paper); }
+.fill { height: 100%; background: repeating-linear-gradient(-45deg, #38d9a9 0 10px, #63e6be 10px 20px); border-right: 2.5px solid var(--ink); }
+
+.legend { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 18px 0 0; font-size: 14px; color: var(--soft-ink); }
+
+/* 領域 */
+.domain { margin: 30px 0 14px; display: flex; align-items: center; gap: 10px; }
+.domain h2 { margin: 0; font-size: 19px; font-weight: 900; background: var(--c); color: #1d1b2f; border: 2.5px solid #1d1b2f; border-radius: 12px; padding: 2px 14px; transform: rotate(-1.5deg); box-shadow: 3px 3px 0 #1d1b2f; }
+.domain .count { color: var(--soft-ink); font-size: 14px; font-weight: 700; }
+.domain::after { content: ""; flex: 1; border-top: 2.5px dashed var(--ink); opacity: .2; }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 18px; }
+.grid > * { min-width: 0; }
+
+/* 科目貼紙 */
+.subj { position: relative; display: block; color: var(--ink); text-decoration: none; background: var(--card); border: 2.5px solid var(--ink); border-radius: 16px; padding: 16px 16px 14px; overflow: hidden; }
+.subj::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 10px; background: var(--c); border-bottom: 2.5px solid var(--ink); }
+.subj h3 { margin: 10px 0 0; font-size: 22px; font-weight: 900; }
+.subj .meta { color: var(--soft-ink); font-size: 14px; font-weight: 700; }
+.subj .note { font-size: 14.5px; margin: 6px 0 0; }
+.subj .foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+a.subj { box-shadow: 5px 5px 0 var(--shadow); transition: transform .15s, box-shadow .15s; }
+a.subj:nth-child(odd) { transform: rotate(-.8deg); }
+a.subj:nth-child(even) { transform: rotate(.8deg); }
+a.subj:hover, a.subj:focus-visible { transform: rotate(0) translate(-2px, -3px); box-shadow: 8px 8px 0 var(--shadow); outline: none; }
+.go { font-weight: 800; font-size: 15px; background: var(--c); color: #1d1b2f; border: 2.5px solid #1d1b2f; border-radius: 10px; padding: 1px 12px; }
+.subj.locked { background: var(--lock); border-style: dashed; }
+.subj.locked::before { opacity: .45; border-bottom-style: dashed; }
+.subj.locked h3, .subj.locked .note { color: var(--soft-ink); }
+
+.chip { display: inline-block; font-size: 13px; font-weight: 700; padding: 0 9px; border-radius: 999px; border: 2px solid var(--ink); line-height: 1.6; }
+.chip.ready { background: #d3f9d8; color: #1d1b2f; border-color: #1d1b2f; }
+.chip.wip { background: #fff3bf; color: #1d1b2f; border-color: #1d1b2f; }
+.chip.todo { background: transparent; color: var(--soft-ink); border-style: dashed; border-color: var(--soft-ink); }
+.chip.exam { background: var(--sun); color: #1d1b2f; border-color: #1d1b2f; }
+
+footer { color: var(--soft-ink); font-size: 13px; padding: 34px 0 36px; }
+
+@media (max-width: 760px) {
+  .intro { grid-template-columns: 1fr; }
+}
+
+/* 還沒開放的科目做得小一點，讓開放的科目比較顯眼 */
+.subj.locked { padding: 14px 14px 12px; }
+.subj.locked h3 { font-size: 18px; margin-top: 8px; }
+.subj.locked .meta { font-size: 13px; }
+.subj.locked .foot { margin-top: 6px; }
+.grid:not(:has(a.subj)) { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }

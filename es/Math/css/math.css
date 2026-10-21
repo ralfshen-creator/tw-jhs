@@ -1,0 +1,27 @@
+/* ---------- 數學專用 ---------- */
+/* 分數：<span class="frac"><span>分子</span><span>分母</span></span> */
+.frac { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center; font-size: .92em; line-height: 1.15; margin: 0 2px; }
+.frac > span:first-child { border-bottom: 1.5px solid currentColor; padding: 0 3px; }
+.frac > span:last-child { padding: 0 3px; }
+.formula .frac { font-size: .95em; }
+
+/* 章節分類標籤（數與量、代數、函數、幾何、坐標幾何、資料與不確定性） */
+:root { --t-num: #2f6fed; --t-alg: #7b4fd6; --t-func: #0b7a75; --t-geo: #c2410c; --t-coord: #b26a00; --t-stat: #138a4b; }
+@media (prefers-color-scheme: dark) { :root { --t-num: #6d9bff; --t-alg: #b49cff; --t-func: #5fd3c9; --t-geo: #ff9a5c; --t-coord: #f0b14a; --t-stat: #4cc38a; } }
+.tag.num, .tag.alg, .tag.func, .tag.geo, .tag.coord, .tag.stat { background: transparent; border: 1px solid; padding: 1px 8px; }
+.tag.num { color: var(--t-num); border-color: var(--t-num); }
+.tag.alg { color: var(--t-alg); border-color: var(--t-alg); }
+.tag.func { color: var(--t-func); border-color: var(--t-func); }
+.tag.geo { color: var(--t-geo); border-color: var(--t-geo); }
+.tag.coord { color: var(--t-coord); border-color: var(--t-coord); }
+.tag.stat { color: var(--t-stat); border-color: var(--t-stat); }
+
+/* 例題：題目、步驟、答案 */
+.example { border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; margin: 12px 0; background: var(--card); }
+.example > b:first-child { color: var(--primary); }
+.example ol { margin: 6px 0 2px; padding-left: 22px; }
+.example .ans { font-weight: 700; color: var(--ok); }
+.s-tick-fill { fill: var(--text); }
+
+/* 數學站的主色（覆蓋 theme.css 的預設綠色） */
+:root { --site-accent: #ffa94d; --site-accent-soft: #fff0db; --site-accent-soft-dark: #3a2a17; }
