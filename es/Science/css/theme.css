@@ -1,0 +1,92 @@
+/*
+ * LVUP 外觀（筆記本＋貼紙風格）。放在 style.css 之後載入，只改外框、按鈕、卡片等外觀，
+ * 不改圖解的顏色（圖解顏色有意義，例如藍色代表缺氧血）。
+ * 各站主色：預設綠色（自然科學）；其他站在自己的 css 設定 --site-accent、--site-accent-soft、--site-accent-soft-dark。兩站共用同一份檔案。
+ */
+:root {
+  --accent: var(--site-accent, #38d9a9); --accent-soft: var(--site-accent-soft, #dcfaf0);
+  --paper: #fff9ee; --grid: rgba(29, 27, 47, .05);
+  --ink-line: #1d1b2f; --shadow: #1d1b2f; --sticker-ink: #1d1b2f;
+  --radius: 16px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --accent-soft: var(--site-accent-soft-dark, #173326);
+    --paper: #17151f; --grid: rgba(255, 255, 255, .04);
+    --ink-line: rgba(243, 239, 228, .7); --shadow: #000;
+  }
+}
+
+body {
+  background-color: var(--paper);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 26px 26px;
+}
+h1 { font-weight: 900; }
+h2 { font-weight: 900; }
+
+/* 頂部 */
+.topbar { border-bottom: 2.5px solid var(--ink-line); }
+.brand { font-weight: 900; }
+nav a { font-weight: 700; border-radius: 10px; border: 2px solid transparent; }
+nav a:hover { background: var(--accent-soft); color: var(--text); }
+nav a.active { background: var(--accent); color: var(--sticker-ink); border-color: var(--sticker-ink); box-shadow: 2px 2px 0 var(--sticker-ink); }
+
+/* 卡片：粗外框＋硬陰影 */
+.card { border: 2px solid var(--ink-line); border-radius: var(--radius); box-shadow: 4px 4px 0 var(--shadow); }
+.card.hero { background: var(--accent-soft); position: relative; overflow: hidden; }
+.card.hero::after { content: ""; position: absolute; right: -26px; top: -26px; width: 110px; height: 110px; border-radius: 50%; background: var(--accent); border: 2.5px solid var(--ink-line); opacity: .9; }
+.card.hero > * { position: relative; z-index: 1; }
+.exam-card { border-width: 2.5px; }
+.formula-item { border: 2px solid var(--ink-line); border-radius: 12px; }
+
+/* 按鈕 */
+.btn { background: var(--accent); color: var(--sticker-ink); border: 2px solid var(--sticker-ink); border-radius: 12px; font-weight: 800; box-shadow: 3px 3px 0 var(--sticker-ink); transition: transform .08s, box-shadow .08s; }
+.btn:hover { filter: none; transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--sticker-ink); }
+.btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--sticker-ink); }
+.btn.ghost { background: var(--card); color: var(--text); border-color: var(--ink-line); box-shadow: 3px 3px 0 var(--shadow); }
+.btn.danger { background: var(--bad); color: #fff; }
+.btn.small { box-shadow: 2px 2px 0 var(--sticker-ink); }
+.btn.ghost.small { box-shadow: 2px 2px 0 var(--shadow); }
+.btn:disabled, .btn:disabled:hover { transform: none; box-shadow: none; }
+
+/* 首頁的年級、學期選擇 */
+.seg-btn { border: 2px solid var(--ink-line); font-weight: 700; }
+.seg-btn.on { background: var(--accent); color: var(--sticker-ink); border-color: var(--sticker-ink); box-shadow: 2px 2px 0 var(--sticker-ink); }
+
+/* 測驗選項 */
+.opt { border: 2px solid var(--ink-line); border-radius: 12px; }
+.opt:hover { border-color: var(--ink-line); background: var(--accent-soft); }
+.opt .key { font-family: "Fredoka", system-ui, sans-serif; }
+.opt.chosen { border-color: var(--sticker-ink); background: var(--accent-soft); box-shadow: 3px 3px 0 var(--shadow); }
+.opt.right { border-width: 2.5px; }
+.opt.wrong { border-width: 2.5px; }
+.progress-dots button { border-width: 2px; font-family: "Fredoka", system-ui, sans-serif; }
+
+/* 數字用圓圓的字體 */
+.score-ring, .stat-big { font-family: "Fredoka", system-ui, sans-serif; }
+
+/* 課文裡的提示框：左邊粗線改成圓角貼紙 */
+.box { border-radius: 12px; border-left-width: 5px; }
+
+/* 選單項目多（自然科學有「模擬實驗」）時，中等寬度也要排成一行；iPad 橫向（1024）放不下，改用 ☰ 選單 */
+nav { gap: 2px; }
+nav a { padding: 5px 10px; }
+@media (max-width: 1260px) { .brand-en { display: none; } }
+@media (max-width: 1100px) {
+  .menu-btn { display: block; }
+  nav { display: none; position: absolute; top: 100%; left: 0; right: 0;
+        flex-direction: column; background: var(--card); border-bottom: 2.5px solid var(--ink-line); padding: 8px; }
+  nav.open { display: flex; }
+}
+
+/* 手機、平板：表單元件放大好點，下拉選單不超出畫面 */
+select { max-width: 100%; }
+input[type=checkbox], input[type=radio] { width: 20px; height: 20px; flex: none; accent-color: var(--accent); vertical-align: -4px; margin: 0 4px 0 0; }
+input[type=range] { height: 30px; accent-color: var(--accent); }
+input[type=file] { max-width: 100%; padding: 6px 0; }
+@media (max-width: 600px) {
+  label:has(> select) { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; max-width: 100%; min-width: 0; }
+  label > select { width: 100%; }
+}
+.chapter-pick label .cnt { white-space: nowrap; }

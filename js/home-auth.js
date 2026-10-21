@@ -8,7 +8,7 @@
   const CFG = window.FIREBASE_CONFIG;
   const SDK = "https://www.gstatic.com/firebasejs/10.12.2/";
   // 各學習站的 localStorage 前綴；新增學習站時要補上
-  const SITE_PREFIXES = ["ma.", "pc.", "esma."];
+  const SITE_PREFIXES = ["ma.", "pc.", "esma.", "essc."];
   const $ = id => document.getElementById(id);
   const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   let auth = null, user = null, tab = "login";

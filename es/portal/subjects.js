@@ -16,7 +16,7 @@ window.PORTAL = {
       { name: "社會", folder: "Social", grades: "五年級", publisher: "康軒", status: "todo" }
     ]},
     { name: "自然科學", icon: "🔬", subjects: [
-      { name: "自然", folder: "Science", grades: "五年級", publisher: "康軒", status: "todo" }
+      { name: "自然", folder: "Science", grades: "五年級", publisher: "康軒", status: "ready", href: "Science/index.html", note: "五上、五下共 8 個單元、80 題" }
     ]}
   ]
 };
