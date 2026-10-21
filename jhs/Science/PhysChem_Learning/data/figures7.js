@@ -111,11 +111,13 @@
 </svg>`;
 
   // 浮力：甲上表面、乙下表面
-  F.qBuoy = `<svg viewBox="0 0 360 240" width="360" role="img" aria-label="完全沒入水中的物體">${defs("qby")}
+  // 箭頭長度刻意畫成一樣：這是看圖題，畫長短會洩漏答案，所以圖上註明「只表示方向」
+  F.qBuoy = `<svg viewBox="0 0 360 260" width="360" role="img" aria-label="完全沒入水中的物體">${defs("qby")}
   <path d="M40,40 L40,220 L300,220 L300,40" class="s-glass"/><rect x="42" y="60" width="256" height="158" class="s-water"/>
   <rect x="130" y="100" width="80" height="60" class="s-stone"/>
   ${arr("qby", 170, 70, 170, 98, true)}${arr("qby", 170, 190, 170, 162, true)}
   ${T(182, 84, "甲", "s-text", "start")}${T(182, 186, "乙", "s-text", "start")}
+  ${T(170, 248, "箭頭只表示力的方向，長度不代表力的大小", "s-small")}
 </svg>`;
 
   // 直線上的移動：先向東 40 m，再向西 60 m

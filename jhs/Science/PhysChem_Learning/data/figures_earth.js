@@ -115,10 +115,19 @@
       const lx = r1(cx + (R + 32) * Math.cos(ang)), ly = r1(cy + (R + 32) * Math.sin(ang) + 5);
       s += T(lx, ly, q ? qn[i] : names[i], q ? "s-text" : "s-small");
     }
-    return `<svg viewBox="0 0 460 350" width="460" role="img" aria-label="${q ? "月球繞地球的八個位置" : "月球在不同位置時從地球看到的月相"}">
+    // 課文版另外畫「從地球上看到的樣子」，和外圈的太空俯視分開（題目版不畫，避免提示答案）
+    const look = (y, name, lit) => {
+      const x = 500, r = 18;
+      const shape = lit === "all" ? `<circle cx="${x}" cy="${y}" r="${r}" class="s-moon"/>`
+        : `<circle cx="${x}" cy="${y}" r="${r}" class="s-moon-dark"/>` + (lit === "right" ? `<path d="M${x},${y - r} A${r},${r} 0 0 1 ${x},${y + r} Z" class="s-moon"/>` : lit === "left" ? `<path d="M${x},${y - r} A${r},${r} 0 0 0 ${x},${y + r} Z" class="s-moon"/>` : "");
+      return shape + T(x + 28, y + 5, name, "s-small", "start");
+    };
+    const side = q ? "" : `<line x1="462" y1="40" x2="462" y2="300" class="s-guide"/>${T(530, 30, "從地球上看到的樣子", "s-small")}${T(530, 48, "（臺灣所在的北半球）", "s-tiny")}
+  ${look(90, "新月", "none")}${look(150, "上弦月", "right")}${look(210, "滿月", "all")}${look(270, "下弦月", "left")}`;
+    return `<svg viewBox="0 0 ${q ? 460 : 600} 350" width="${q ? 460 : 600}" role="img" aria-label="${q ? "月球繞地球的八個位置" : "月球在不同位置時從地球看到的月相"}">
   ${s}<circle cx="${cx}" cy="${cy}" r="22" class="s-ocean"/>${T(cx, cy + 5, "地球", "s-small")}
-  ${T(14, 24, "太陽光從右邊照過來 →", "s-small", "start")}
-  ${T(230, 324, "從北極上空往下看，月球逆時針繞地球", "s-small")}${T(230, 342, "白色是被太陽照亮的那一半", "s-small")}
+  ${T(14, 24, "太陽光從右邊照過來 →", "s-small", "start")}${side}
+  ${T(230, 324, "從北極上空往下看，月球逆時針繞地球", "s-small")}${T(230, 342, "外圈是從太空俯視：白色的一半永遠朝向太陽，不是地球上看到的樣子", "s-small")}
 </svg>`;
   };
   F.earthMoonPhases = moonPhases(false);

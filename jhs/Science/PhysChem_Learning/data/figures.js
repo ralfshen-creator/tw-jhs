@@ -157,15 +157,14 @@
   }
 
   // ---------- 液體分層 ----------
-  const layers = `<svg viewBox="0 0 360 230" width="360" role="img" aria-label="不同密度液體分層">
-  <rect x="80" y="60" width="120" height="50" class="s-oil"/>
-  <rect x="80" y="110" width="120" height="55" class="s-water"/>
-  <rect x="80" y="165" width="120" height="45" class="s-honey"/>
+  // 只用真的互不相溶的油和水（蜂蜜裡的糖會溶進水裡，不能當永久分層的例子）
+  const layers = `<svg viewBox="0 0 360 230" width="360" role="img" aria-label="沙拉油和水互不相溶，靜置後分成兩層">
+  <rect x="80" y="70" width="120" height="60" class="s-oil"/>
+  <rect x="80" y="130" width="120" height="80" class="s-water"/>
   <path d="M80,30 L80,210 L200,210 L200,30" class="s-glass"/>
-  <text x="215" y="90" class="s-text">沙拉油 約 0.9 g/cm³</text>
-  <text x="215" y="143" class="s-text">水 1.0 g/cm³</text>
-  <text x="215" y="193" class="s-text">蜂蜜 約 1.4 g/cm³</text>
-  <text x="140" y="24" text-anchor="middle" class="s-small">密度小的在上</text>
+  <text x="215" y="105" class="s-text">沙拉油 約 0.9 g/cm³</text>
+  <text x="215" y="175" class="s-text">水 1.0 g/cm³</text>
+  <text x="140" y="24" text-anchor="middle" class="s-small">互不相溶，靜置後分層：密度小的在上</text>
 </svg>`;
 
   // ---------- 物質分類 ----------

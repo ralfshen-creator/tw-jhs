@@ -102,8 +102,8 @@
   <polyline points="${a.X(0)},${a.Y(0)} ${a.X(7)},${a.Y(10)}" class="s-accent-line"/>
   <polyline points="${a.X(0)},${a.Y(0)} ${a.X(10)},${a.Y(4)}" class="s-chem-line"/>
   <polyline points="${a.X(0)},${a.Y(6)} ${a.X(10)},${a.Y(6)}" class="s-ok-line"/>
-  ${T(a.X(7) + 8, a.Y(10) + 6, "甲：線陡，速度快", "s-accent-text", "start")}
-  ${T(a.X(10) + 6, a.Y(4) + 5, "乙：線緩，速度慢", "s-chem-text", "start")}
+  ${T(a.X(7) + 8, a.Y(10) + 6, "甲：線陡，速率大", "s-accent-text", "start")}
+  ${T(a.X(10) + 6, a.Y(4) + 5, "乙：線緩，速率小", "s-chem-text", "start")}
   ${T(a.X(10) + 6, a.Y(6) + 5, "丙：水平，靜止", "s-text", "start")}
 </svg>`;
   })();

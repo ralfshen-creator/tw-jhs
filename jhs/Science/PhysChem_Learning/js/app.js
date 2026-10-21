@@ -143,13 +143,25 @@
     return { value: (m[1] === "-" ? -1 : 1) * n / d, unit: m[4], frac: m[3] ? { n: m[2], d } : null };
   }
   const gcd = (a, b) => (b ? gcd(b, a % b) : a);
-  // 填充題的判定。題目可用 answerFormat 指定：
+  // 填充題的判定。題目可用 answerFormat 指定（只對有標示的題目生效，其他題照舊比數值）：
   //   （不填）數值題比數值、可帶標準答案列出的單位：5、5.0、５ 都算對；文字題比字串；帶分數寫成 2又7/10
   //   "fraction-simplest"  數值要相等，而且要寫成最簡分數
+  //   "decimal"            數值要相等，而且要寫成小數或整數（0.875、.875 可以；7/8、帶分數不行）
+  //   "ratio-equivalent"   比例 a:b，和標準答案等值就算對（10:6 = 5:3）；含 0 的比不算
   //   "exact"              只比字串（例如有效位數、估計值要照格式寫的題目）
+  function ratioParts(s) {
+    const m = s.match(/^(\d+(?:\.\d+)?|\.\d+):(\d+(?:\.\d+)?|\.\d+)$/);
+    if (!m) return null;
+    const x = parseFloat(m[1]), y = parseFloat(m[2]);
+    return x > 0 && y > 0 && isFinite(x) && isFinite(y) ? [x, y] : null;
+  }
   function fillMatches(q, accepted, given) {
     const A = normFill(accepted), G = normFill(given);
-    if (q.answerFormat !== "fraction-simplest" && A === G) return true;
+    if (q.answerFormat === "ratio-equivalent") {
+      const a = ratioParts(A), g = ratioParts(G);
+      return !!(a && g) && Math.abs(a[0] * g[1] - a[1] * g[0]) <= 1e-9 * Math.max(1, a[0] * g[1]);
+    }
+    if (q.answerFormat !== "fraction-simplest" && q.answerFormat !== "decimal" && A === G) return true;
     if (q.answerFormat === "exact") return false;
     const a = parseNumber(A), g = parseNumber(G);
     if (!a || !g || a.unit !== g.unit) return false;
@@ -158,7 +170,18 @@
       if (!g.frac) return !a.frac;
       return /^\d+$/.test(g.frac.n) && g.frac.d > 1 && gcd(+g.frac.n, g.frac.d) === 1;
     }
+    if (q.answerFormat === "decimal") return !g.frac;
     return true;
+  }
+  // 答錯時，如果數值其實相等、只是沒照指定寫法，回傳提示文字
+  function formatMiss(q, given) {
+    if (q.type !== "fill" || given == null || given === "" || isCorrect(q, given)) return "";
+    const loose = Object.assign({}, q, { answerFormat: undefined });
+    const same = q.answer.split("|").some(a => fillMatches(loose, a, given)) ||
+      (q.sameValue || "").split("|").some(a => a && normFill(a) === normFill(given));
+    if (!same) return "";
+    const want = { "fraction-simplest": "最簡分數", "decimal": "小數" }[q.answerFormat] || q.formatName || "題目指定的寫法";
+    return `你的答案數值相等，但題目要求寫成${want}。`;
   }
   function isCorrect(q, given) {
     if (given == null || given === "") return false;
@@ -347,7 +370,7 @@ ${back ? `<div class="back-bar">${back}<span class="small muted">讀完這個觀
 <p class="small"><a href="#/lessons">← 課程</a> ／ ${esc(c.termName)}</p>
 <h1>${esc(c.no)} ${esc(c.title)} ${subjectTag(c.subject)}</h1>
 <p class="muted">${esc(c.summary)}</p>
-${hasSupp(c) ? '<div class="small muted" style="margin-bottom:12px">📘 本章有紫色虛線框的<b>補充教材</b>（其他版本才有的內容，已標示版本），段考以${esc(PUB)}版為準。</div>' : ""}
+${hasSupp(c) ? `<div class="small muted" style="margin-bottom:12px">📘 本章有紫色虛線框的<b>補充教材</b>（其他版本才有的內容，已標示版本），段考以${esc(PUB)}版為準。</div>` : ""}
 <div class="lesson-layout">
   <aside class="toc card">
     ${c.checklist ? `<a href="javascript:void 0" data-action="scroll" data-target="sec-check">必會重點</a>` : ""}
@@ -739,7 +762,7 @@ ${resumeBanner()}
     if (checked) {
       const ok = isCorrect(q, given);
       feedback = `<div class="explain">
-        <div class="msg ${ok ? "ok" : "bad"}">${ok ? "✔ 答對了！" : "✘ 答錯了，正確答案：" + esc(answerText(q, q.answer))}</div>
+        <div class="msg ${ok ? "ok" : "bad"}">${ok ? "✔ 答對了！" : "✘ 答錯了，正確答案：" + esc(answerText(q, q.answer))}${ok ? "" : formatMiss(q, given) ? "<br>" + esc(formatMiss(q, given)) : ""}</div>
         ${explainBlock(q, ok, "quiz")}</div>`;
     }
 
@@ -887,7 +910,7 @@ ${r.details.map((d, k) => { const q = byId[d.qid]; return `
   ${q.figure ? `<div class="q-fig">${q.figure}</div>` : ""}
   <div class="q-text">${rich(q.q)}</div>
   ${q.options ? `<ol type="A" class="small">${q.options.map(o => `<li>${rich(o)}</li>`).join("")}</ol>` : ""}
-  <div>你的答案：<b>${esc(answerText(q, d.given))}</b>　正確答案：<b>${esc(answerText(q, q.answer))}</b></div>
+  <div>你的答案：<b>${esc(answerText(q, d.given))}</b>　正確答案：<b>${esc(answerText(q, q.answer))}</b></div>${formatMiss(q, d.given) ? `<div class="small muted">${esc(formatMiss(q, d.given))}</div>` : ""}
   ${explainBlock(q, d.correct, "result")}
 </div>`; }).join("")}`;
     quiz._wrongIds = wrongIds;

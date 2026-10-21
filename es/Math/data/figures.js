@@ -184,18 +184,42 @@
   ${poly([[40, 140], [290, 140], [210, 40], [110, 40]], "s-node")}${L(110, 40, 110, 140, "s-warn-line")}<path d="M110,130 L120,130 L120,140" class="s-tick"/>
   ${T(160, 30, "5 公分", "s-text")}${T(165, 160, "11 公分", "s-text")}${T(104, 96, "4 公分", "s-text", "end")}
 </svg>`;
-  const qTriAngle = `<svg viewBox="0 0 360 180" width="360" role="img" aria-label="三角形兩個角是 50 度和 65 度，第三個角未知">
-  ${poly([[40, 150], [300, 150], [130, 40]], "s-node")}
-  ${T(72, 140, "50°", "s-text")}${T(258, 140, "65°", "s-text")}${T(132, 72, "?", "s-accent-text")}
+  // 依 50°、65°、65° 畫：A、B 在底邊，C = A 往 50° 方向走 200（AB = AC = 200）
+  const qTriAngle = (() => {
+    const A = [40, 180], B = [240, 180], C = pt(40, 180, 200, 50);
+    return `<svg viewBox="0 0 280 210" width="280" role="img" aria-label="三角形兩個角是 50 度和 65 度，第三個角未知">
+  ${poly([A, B, C], "s-node")}
+  ${T(82, 170, "50°", "s-text")}${T(212, 170, "65°", "s-text")}${T(C[0], C[1] + 38, "?", "s-accent-text")}
+  ${T(140, 204, "依標示的度數計算，不要用量的", "s-small")}
 </svg>`;
+  })();
   const qSymShapes = (() => {
     const box = (x, label, shape) => `${R(x, 10, 100, 100, "s-node-main")}${shape}${T(x + 50, 132, label, "s-text")}`;
     return `<svg viewBox="0 0 440 140" width="440" role="img" aria-label="四個圖形 A、B、C、D">
   ${box(5, "A", poly([[55, 25], [90, 95], [20, 95]], "s-node"))}
   ${box(115, "B", poly([[125, 95], [175, 95], [205, 25], [155, 25]], "s-node"))}
-  ${box(225, "C", poly([[275, 22], [302, 38], [302, 82], [275, 98], [248, 82], [248, 38]], "s-node"))}
+  ${box(225, "C", poly([90, 30, -30, -90, -150, 150].map(d => pt(275, 60, 38, d)), "s-node"))}
   ${box(335, "D", R(355, 35, 60, 50, "s-node"))}
 </svg>`;
+  })();
+  // 簡化字形：每個字畫在 60 × 60 的格子裡，虛線是中線（x = 30）。
+  // 山、田、天的左右筆畫用鏡射座標畫，沿中線對摺會完全重合；水、好故意畫成左右不同。答案不寫在圖上。
+  const qGlyphs = (() => {
+    const glyphs = [
+      ["山", [[30, 10, 30, 50], [10, 50, 50, 50], [10, 22, 10, 50], [50, 22, 50, 50]]],
+      ["水", [[30, 8, 30, 52], [30, 52, 24, 48], [12, 22, 24, 22], [24, 22, 12, 42], [48, 16, 36, 30], [36, 30, 50, 50]]],
+      ["田", [[12, 12, 48, 12], [48, 12, 48, 48], [48, 48, 12, 48], [12, 48, 12, 12], [30, 12, 30, 48], [12, 30, 48, 30]]],
+      ["好", [[16, 10, 10, 30], [10, 30, 24, 52], [24, 22, 8, 48], [6, 32, 26, 32], [34, 12, 50, 12], [50, 12, 42, 24], [42, 24, 42, 52], [42, 52, 37, 49], [32, 34, 54, 34]]],
+      ["天", [[16, 14, 44, 14], [10, 28, 50, 28], [30, 14, 30, 28], [30, 28, 12, 52], [30, 28, 48, 52]]]
+    ];
+    let g = "";
+    glyphs.forEach(([name, segs], i) => {
+      const ox = 20 + i * 84, oy = 14;
+      g += R(ox - 6, oy - 6, 72, 72, "s-node-main") + L(ox + 30, oy - 6, ox + 30, oy + 66, "s-warn-line");
+      segs.forEach(s => { g += L(ox + s[0], oy + s[1], ox + s[2], oy + s[3], "s-accent-line", 'stroke-linecap="round"'); });
+      g += T(ox + 30, oy + 90, "ABCDE"[i] + "　" + name, "s-text");
+    });
+    return `<svg viewBox="0 0 440 120" width="440" role="img" aria-label="五個用直線畫成的簡化字形，虛線是每個字的中線">${g}</svg>`;
   })();
   const qSector = (() => {
     const a = pt(120, 100, 80, 90), b = pt(120, 100, 80, 210), c = pt(120, 100, 80, 330);
@@ -207,7 +231,7 @@
   })();
 
   window.FIG = { fig, decimalPlace, factorRects, multipleLine, equivFrac, triSides, angleSum, polySplit, sector, fracAdd, symAxis,
-    distribArea, areaShapes, trapDouble, solidsES, qParallelogram, qTrapezoid, qTriAngle, qSymShapes, qSector,
+    distribArea, areaShapes, trapDouble, solidsES, qParallelogram, qTrapezoid, qTriAngle, qSymShapes, qSector, qGlyphs,
     // 給 figures2.js 用的小工具
     _: { r1, T, L, R, dot, poly, pt, wedge, bar } };
 })();

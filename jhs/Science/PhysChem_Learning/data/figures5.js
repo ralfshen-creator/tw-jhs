@@ -108,16 +108,21 @@
   })();
 
   // ---------- 八下 2-2 氧的轉移 ----------
-  F.redoxPass = `<svg viewBox="0 0 440 210" width="440" role="img" aria-label="氧化銅與碳反應時氧的轉移">${defs("rp")}
-  <circle cx="60" cy="96" r="17" class="s-metal"/>${T(60, 101, "Cu", "s-small")}${O(90, 96, 12)}
-  ${T(125, 104, "+", "s-big")}${C(165, 96, 13)}
-  <path d="M92,80 Q128,34 160,78" class="s-chem-arrow" marker-end="url(#rpc)"/>${T(126, 40, "氧被搶走", "s-chem-text")}
-  ${arr("rp", 195, 96, 250, 96)}
-  <circle cx="290" cy="96" r="17" class="s-metal"/>${T(290, 101, "Cu", "s-small")}${T(325, 104, "+", "s-big")}${O(360, 96, 11)}${C(383, 96, 12)}${O(406, 96, 11)}
-  ${T(64, 142, "CuO 失去氧")}${T(64, 162, "被還原（氧化劑）", "s-small")}
-  ${T(182, 142, "C 得到氧")}${T(182, 162, "被氧化（還原劑）", "s-small")}
-  ${T(345, 142, "2CuO + C → 2Cu + CO₂", "s-small")}
-  ${T(220, 196, "氧從氧化銅「傳」到碳：一方失去，一方得到，同時發生", "s-accent-text")}
+  // 2CuO + C → 2Cu + CO₂：前後都是 Cu 2、C 1、O 2（兩個氧各畫一條箭頭到碳）
+  F.redoxPass = `<svg viewBox="0 0 470 250" width="470" role="img" aria-label="兩個氧化銅與一個碳反應時氧的轉移">${defs("rp")}
+  <circle cx="50" cy="70" r="17" class="s-metal"/>${T(50, 75, "Cu", "s-small")}${O(80, 70, 12)}
+  <circle cx="50" cy="124" r="17" class="s-metal"/>${T(50, 129, "Cu", "s-small")}${O(80, 124, 12)}
+  ${T(115, 105, "+", "s-big")}${C(158, 97, 13)}
+  <path d="M93,64 Q128,46 148,84" class="s-chem-arrow" marker-end="url(#rpc)"/><path d="M93,130 Q128,148 148,110" class="s-chem-arrow" marker-end="url(#rpc)"/>
+  ${T(130, 36, "兩個氧都被碳搶走", "s-chem-text")}
+  ${arr("rp", 192, 97, 242, 97)}
+  <circle cx="280" cy="70" r="17" class="s-metal"/>${T(280, 75, "Cu", "s-small")}<circle cx="280" cy="124" r="17" class="s-metal"/>${T(280, 129, "Cu", "s-small")}
+  ${T(318, 105, "+", "s-big")}${O(352, 97, 11)}${C(375, 97, 12)}${O(398, 97, 11)}
+  ${T(60, 170, "2CuO 失去氧")}${T(60, 188, "被還原（氧化劑）", "s-small")}
+  ${T(170, 170, "C 得到氧")}${T(170, 188, "被氧化（還原劑）", "s-small")}
+  ${T(340, 170, "2CuO + C → 2Cu + CO₂", "s-small")}${T(340, 188, "前後都是 Cu 2、C 1、O 2", "s-accent-text")}
+  ${T(235, 218, "氧從氧化銅「傳」到碳：一方失去，一方得到，同時發生", "s-accent-text")}
+  ${T(235, 240, "粒子示意圖，不代表真實大小；氧化銅是離子化合物，不是一個個獨立的分子", "s-tiny")}
 </svg>`;
 
   // ---------- 八下 2-3 鐵釘生鏽實驗 ----------

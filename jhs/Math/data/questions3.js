@@ -5,8 +5,9 @@
 window.BUILTIN_QUESTIONS.push(
   // ===================== 九上 第1章 相似形 =====================
   { id: "m9A1-1", chapter: "9A-1", concept: "9A1-ratio", kind: "calc", type: "fill", difficulty: 1,
-    q: "若 x : y = 2 : 3，則 (x + y) : y = ？（寫成 a:b）", answer: "5:3|5：3|5 : 3",
-    explain: "設 x = 2k、y = 3k：(x + y) : y = 5k : 3k = 5 : 3。" },
+    answerFormat: "ratio-equivalent",
+    q: "若 x : y = 2 : 3，則 (x + y) : y = ？（寫成 a:b）", answer: "5:3",
+    explain: "設 x = 2k、y = 3k：(x + y) : y = (2 + 3) : 3 = 5k : 3k = 5 : 3。和 5 : 3 等值的比（例如 10 : 6）也算對。" },
   { id: "m9A1-2", chapter: "9A-1", concept: "9A1-segment", kind: "calc", type: "single", difficulty: 2,
     q: "△ABC 中，D 在 AB 上、E 在 AC 上，DE // BC。AD = 4、DB = 6、AE = 6，EC = ？", options: ["4", "9", "10", "15"], answer: "B",
     explain: "平行線截比例線段：AD : DB = AE : EC，4 : 6 = 6 : EC，EC = 9。常見錯誤是寫成 AD : AB = AE : EC（把全段和部分混著用）。" },
