@@ -9,18 +9,19 @@ window.SITE = {
   storagePrefix: "esma.",
   backupName: "國小數學學習站備份",
   backupApp: "ES_Math_Learning",
-  grades: [5],
+  grades: [5, 6],
   defaultGrade: 5,
   terms: {
-    "5A": { grade: 5, half: "上" }, "5B": { grade: 5, half: "下" }
+    "5A": { grade: 5, half: "上" }, "5B": { grade: 5, half: "下" },
+    "6A": { grade: 6, half: "上" }, "6B": { grade: 6, half: "下" }
   },
-  gradeName: { 5: "五年級" },
+  gradeName: { 5: "五年級", 6: "六年級" },
   // 章節卡片上的分類標籤（108 課綱國小數學的學習內容主題）
   subjectTags: {
     num: "數與量", geo: "空間與形狀", alg: "關係", stat: "資料與不確定性"
   },
-  lessonsIntro: `依 108 課綱、<b>康軒版</b>國小數學編排，五上、五下各 10 個單元。點進去看重點整理、例題與圖解。`,
-  versionNote: `單元依據：康軒版五年級數學（115 學年度）。單元名稱對照學校公告的康軒版教學計畫與均一教育平台「適康軒版」課程；小節名稱是本站整理，可能和課本的活動名稱不完全一樣。`,
+  lessonsIntro: `依 108 課綱、<b>康軒版</b>國小數學編排，五上、五下各 10 個單元；六上 9 個、六下 6 個單元。點進去看重點整理、例題與圖解。`,
+  versionNote: `單元依據：康軒版五、六年級數學（115 學年度）。單元名稱對照學校公告的康軒版教學計畫（六年級以屏東縣兩所國小的計畫交叉比對）與均一教育平台「適康軒版」課程；小節名稱是本站整理，可能和課本的活動名稱不完全一樣。`,
   // 國小沒有會考
   capRange: null,
   formulasTip: "把公式和單位換算記熟，並記得每個公式什麼時候用",
