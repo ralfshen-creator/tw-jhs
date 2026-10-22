@@ -9,15 +9,16 @@ window.SITE = {
   storagePrefix: "essc.",
   backupName: "國小自然學習站備份",
   backupApp: "ES_Science_Learning",
-  grades: [5],
+  grades: [5, 6],
   defaultGrade: 5,
   terms: {
-    "5A": { grade: 5, half: "上" }, "5B": { grade: 5, half: "下" }
+    "5A": { grade: 5, half: "上" }, "5B": { grade: 5, half: "下" },
+    "6A": { grade: 6, half: "上" }, "6B": { grade: 6, half: "下" }
   },
-  gradeName: { 5: "五年級" },
+  gradeName: { 5: "五年級", 6: "六年級" },
   subjectTags: { bio: "生物", phys: "物理", chem: "化學", earth: "地球科學" },
-  lessonsIntro: `依 108 課綱、<b>康軒版</b>國小自然科學編排，五上、五下各 4 個單元，每個單元 3 個活動。點進去看重點整理、實驗和圖解。`,
-  versionNote: `單元與活動名稱依據：學校公告的 115 學年度康軒版五年級自然科學教學進度總表。重點內容依該表列出的學習目標與 108 課綱學習內容（INa～INf）整理，是本站自編，不是課本原文。`,
+  lessonsIntro: `依 108 課綱、<b>康軒版</b>國小自然科學編排，五上、五下各 4 個單元；六上 4 個、六下 3 個單元。點進去看重點整理、實驗和圖解。`,
+  versionNote: `單元與活動名稱依據：學校公告的 115 學年度康軒版五、六年級自然科學教學進度總表（六年級以屏東縣兩所國小的計畫交叉比對）。重點內容依該表列出的學習目標與 108 課綱學習內容（INa～INf）整理，是本站自編，不是課本原文。`,
   // 國小沒有會考
   capRange: null,
   formulasName: "重點",

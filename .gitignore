@@ -5,3 +5,4 @@ desktop.ini
 *.tmp
 *.log
 .vscode/
+_tmp/
