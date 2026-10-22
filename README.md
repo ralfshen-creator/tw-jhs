@@ -11,7 +11,8 @@ LVUP\                    網站根目錄（GitHub 儲存庫 tw-lvup）
 │   ├─ index.html        國小的科目總覽
 │   ├─ Math\             數學學習站（康軒版五年級）
 │   ├─ Science\          自然學習站（康軒版五年級）
-│   └─ Social\           社會學習站（康軒版五年級）
+│   ├─ Social\           社會學習站（康軒版五年級）
+│   └─ English\          英語學習站（康軒版五年級）
 ├─ jhs\                  國中（七～九年級）。說明見 jhs\README.md
 │   ├─ index.html        國中的科目總覽
 │   ├─ Math\             數學學習站
@@ -21,9 +22,9 @@ LVUP\                    網站根目錄（GitHub 儲存庫 tw-lvup）
 
 ## 共用的學習引擎
 
-- 每個學習站的 `js/app.js`、`js/storage.js`、`js/cloud.js` 內容相同，改的時候要全部一起改（目前：`es\Math`、`es\Science`、`es\Social`、`jhs\Math`、`jhs\Science\PhysChem_Learning`）。
+- 每個學習站的 `js/app.js`、`js/storage.js`、`js/cloud.js` 內容相同，改的時候要全部一起改（目前：`es\Math`、`es\Science`、`es\Social`、`es\English`、`jhs\Math`、`jhs\Science\PhysChem_Learning`）。
 - 科目差異寫在各站的 `data/site.js`：課本版本 `publisher`（預設翰林）、重點卡名稱 `formulasName`（預設「公式」）、有沒有會考 `capRange`（國小填 `null`）、學習紀錄前綴 `storagePrefix`。
-- **學習紀錄的前綴不能重複**：國中數學 `ma.`、自然 `pc.`、國小數學 `esma.`、國小自然 `essc.`、國小社會 `esso.`。新增學習站時，也要把前綴加進首頁 `js\home-auth.js` 的 `SITE_PREFIXES`（登出時才會清掉）。
+- **學習紀錄的前綴不能重複**：國中數學 `ma.`、自然 `pc.`、國小數學 `esma.`、國小自然 `essc.`、國小社會 `esso.`、國小英語 `esen.`。新增學習站時，也要把前綴加進首頁 `js\home-auth.js` 的 `SITE_PREFIXES`（登出時才會清掉）。
 
 ## 上線
 

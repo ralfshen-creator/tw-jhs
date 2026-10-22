@@ -90,3 +90,5 @@ input[type=file] { max-width: 100%; padding: 6px 0; }
   label > select { width: 100%; }
 }
 .chapter-pick label .cnt { white-space: nowrap; }
+/* 表格裡很長、不能斷行的字（例如英文填空的底線 ________），必要時才換行，避免手機上表格超出畫面 */
+td, th { overflow-wrap: anywhere; }
