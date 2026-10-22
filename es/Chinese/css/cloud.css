@@ -1,0 +1,16 @@
+/* 帳號頁 */
+.cloud-box { max-width: 460px; }
+.cloud-box form { display: grid; gap: 12px; margin-top: 8px; }
+.cloud-box label { display: grid; gap: 4px; font-weight: 600; }
+.cloud-box input[type=email], .cloud-box input[type=password] {
+  font: inherit; font-size: 16px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px;
+  background: var(--card); color: var(--text); width: 100%; box-sizing: border-box;
+}
+.cloud-google { width: 100%; }
+.cloud-or { text-align: center; color: var(--muted); margin: 14px 0 4px; font-size: 14px; }
+.cloud-switch { margin-top: 14px; }
+.cloud-actions { display: flex; gap: 10px; flex-wrap: wrap; margin: 12px 0; }
+.cloud-msg { border-radius: 10px; padding: 10px 14px; margin: 0 0 14px; }
+.cloud-msg.bad { background: var(--bad-soft); border: 1px solid var(--bad); }
+.cloud-msg.ok { background: var(--ok-soft); border: 1px solid var(--ok); }
+.cloud-privacy summary { cursor: pointer; font-weight: 600; }
