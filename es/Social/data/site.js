@@ -9,16 +9,17 @@ window.SITE = {
   storagePrefix: "esso.",
   backupName: "國小社會學習站備份",
   backupApp: "ES_Social_Learning",
-  grades: [5],
+  grades: [5, 6],
   defaultGrade: 5,
   terms: {
-    "5A": { grade: 5, half: "上" }, "5B": { grade: 5, half: "下" }
+    "5A": { grade: 5, half: "上" }, "5B": { grade: 5, half: "下" },
+    "6A": { grade: 6, half: "上" }, "6B": { grade: 6, half: "下" }
   },
-  gradeName: { 5: "五年級" },
+  gradeName: { 5: "五年級", 6: "六年級" },
   // 用自然站已有的標籤顏色：earth 棕色＝地理、chem 橘色＝歷史、phys 藍色＝公民與經濟
   subjectTags: { earth: "地理", chem: "歷史", phys: "公民與經濟" },
-  lessonsIntro: `依 108 課綱、<b>康軒版</b>國小社會編排，五上、五下各 4 個單元、共 21 課。點進去看重點整理、年代表、地圖示意和圖解。`,
-  versionNote: `單元與課名依據：學校公告的 115 學年度五年級社會領域教學進度總表（課名與康軒版第五冊、第六冊相同）。重點內容依該表列出的學習目標與 108 課綱社會領域學習內容整理，是本站自編，不是課本原文。地圖都是示意圖，不是精確比例。`,
+  lessonsIntro: `依 108 課綱、<b>康軒版</b>國小社會編排，五上、五下各 4 個單元、共 21 課；六上 4 個單元 10 課、六下 2 個單元 6 課。點進去看重點整理、年代表、地圖示意和圖解。`,
+  versionNote: `單元與課名依據：學校公告的 115 學年度五、六年級社會領域教學進度總表（課名與康軒版第五～八冊相同；六年級以屏東縣三所國小的計畫交叉比對）。重點內容依該表列出的學習目標與 108 課綱社會領域學習內容整理，是本站自編，不是課本原文。地圖都是示意圖，不是精確比例。`,
   // 國小沒有會考
   capRange: null,
   formulasName: "重點",

@@ -149,5 +149,5 @@
   })();
 
   window.FIG = { fig, positionFig, qPosition, plates, monsoonFig, qMonsoon, prehistory, rulers, dutchSpain, production, portsFig, qPorts, japanBuild,
-    _: { timeline } };
+    _: { timeline, r1, T, L, R, C, P, poly, defs, A, mapper, island } };
 })();

@@ -13,7 +13,7 @@ window.PORTAL = {
       { name: "數學", folder: "Math", grades: "五、六年級", publisher: "康軒", status: "ready", href: "Math/index.html", note: "五上到六下共 35 個單元、321 題" }
     ]},
     { name: "社會", icon: "🌏", subjects: [
-      { name: "社會", folder: "Social", grades: "五年級", publisher: "康軒", status: "ready", href: "Social/index.html", note: "五上、五下共 8 個單元、21 課、80 題" }
+      { name: "社會", folder: "Social", grades: "五、六年級", publisher: "康軒", status: "ready", href: "Social/index.html", note: "五上到六下共 14 個單元、37 課、144 題" }
     ]},
     { name: "自然科學", icon: "🔬", subjects: [
       { name: "自然", folder: "Science", grades: "五、六年級", publisher: "康軒", status: "ready", href: "Science/index.html", note: "五上到六下共 15 個單元、150 題" }
