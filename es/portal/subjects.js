@@ -6,7 +6,7 @@
 window.PORTAL = {
   domains: [
     { name: "語文", icon: "📖", subjects: [
-      { name: "國語", folder: "Chinese", grades: "五年級", publisher: "南一", status: "ready", href: "Chinese/index.html", note: "五上、五下共 8 個單元、24 課，80 題（不含課文）" },
+      { name: "國語", folder: "Chinese", grades: "五、六年級", publisher: "南一", status: "ready", href: "Chinese/index.html", note: "五上到六下共 15 個單元、45 課、159 題（不含課文）" },
       { name: "英語", folder: "English", grades: "五、六年級", publisher: "康軒", status: "ready", href: "English/index.html", note: "五上到六下共 21 個單元（含準備、節慶）、185 題" }
     ]},
     { name: "數學", icon: "📐", subjects: [

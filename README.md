@@ -9,11 +9,11 @@ LVUP\                    網站根目錄（GitHub 儲存庫 tw-lvup）
 ├─ index.html            首頁：選擇學習階段
 ├─ es\                   國小高年級（五、六年級）。說明見 es\README.md
 │   ├─ index.html        國小的科目總覽
-│   ├─ Math\             數學學習站（康軒版五年級）
-│   ├─ Science\          自然學習站（康軒版五年級）
-│   ├─ Social\           社會學習站（康軒版五年級）
-│   ├─ English\          英語學習站（康軒版五年級）
-│   └─ Chinese\          國語學習站（南一版五年級）
+│   ├─ Math\             數學學習站（康軒版五、六年級）
+│   ├─ Science\          自然學習站（康軒版五、六年級）
+│   ├─ Social\           社會學習站（康軒版五、六年級）
+│   ├─ English\          英語學習站（康軒版五、六年級）
+│   └─ Chinese\          國語學習站（南一版五、六年級）
 ├─ jhs\                  國中（七～九年級）。說明見 jhs\README.md
 │   ├─ index.html        國中的科目總覽
 │   ├─ Math\             數學學習站
