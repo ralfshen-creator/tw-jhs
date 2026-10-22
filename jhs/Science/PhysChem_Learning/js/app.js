@@ -4,6 +4,8 @@
   const TYPE_NAME = { single: "單選", multi: "多選", tf: "是非", fill: "填充" };
   // 課本版本（例如翰林、康軒）；國小沒有會考時 SITE.capRange 留空，首頁就不出現「會考」目標
   const PUB = window.SITE.publisher || "翰林";
+  // 「公式」這個詞只適合數學、理化；社會、國小自然用 SITE.formulasName（例如「重點」）
+  const FNAME = window.SITE.formulasName || "公式";
   const MISC_NAME = window.SITE.capRange ? "未分類 / 綜合（會考、模擬考）" : "未分類 / 綜合（考卷、練習卷）";
   const MISC = { id: "misc", no: "", title: MISC_NAME, subject: "mix", termId: "misc", termName: "其他" };
 
@@ -320,7 +322,7 @@ ${weak.length ? `
   <p class="muted">範圍：${chs.map(c => esc(c.no + " " + c.title)).join("、")}　・　${esc(PUB)}核心題 ${pool.length} 題</p>
   <ol class="checklist">
     ${chs.map(c => `<li>讀 <a href="#/lesson/${c.id}">${esc(c.no + " " + c.title)}</a> ${statusTags(chapterStatus(c.id, cs, read, visits), c)}</li>`).join("")}
-    <li>看 <a href="#/formulas">公式卡</a>，${esc(SITE.formulasTip)}</li>
+    <li>看 <a href="#/formulas">${esc(FNAME)}卡</a>，${esc(SITE.formulasTip)}</li>
     <li><a href="#/quiz?ch=${f.chapters.join(",")}&purpose=core">練習模式</a>：每題對答案、看解析</li>
     <li>${wrongN ? `<a href="javascript:void 0" data-action="exam-wrong">重練範圍內錯題（${wrongN}）</a>` : "錯題重練（目前沒有錯題）"}</li>
     <li>最後做一次模擬考，目標 80 分以上</li>
@@ -375,14 +377,14 @@ ${hasSupp(c) ? `<div class="small muted" style="margin-bottom:12px">📘 本章�
   <aside class="toc card">
     ${c.checklist ? `<a href="javascript:void 0" data-action="scroll" data-target="sec-check">必會重點</a>` : ""}
     ${c.sections.map((s, k) => `<a href="javascript:void 0" data-action="scroll" data-target="sec-${k}">${esc(s.title)}</a>`).join("")}
-    ${c.formulas && c.formulas.length ? `<a href="javascript:void 0" data-action="scroll" data-target="sec-f">本章公式</a>` : ""}
+    ${c.formulas && c.formulas.length ? `<a href="javascript:void 0" data-action="scroll" data-target="sec-f">本章${esc(FNAME)}</a>` : ""}
   </aside>
   <div class="lesson-body">
     ${c.checklist ? `<section class="card exam-card" id="sec-check"><h3 style="margin-top:0">✅ 這一章必會</h3>
       <ul class="checklist">${c.checklist.map(t => `<li>${esc(t)}</li>`).join("")}</ul>
       <div class="small muted">讀完下面的內容後回來對照，每一項都能說出來就準備好了。</div></section>` : ""}
     ${c.sections.map((s, k) => `<section class="card" id="sec-${k}" data-sec="${k}"><h3 style="margin-top:0">${esc(s.title)}</h3>${s.html}</section>`).join("")}
-    ${c.formulas && c.formulas.length ? `<section class="card" id="sec-f"><h3 style="margin-top:0">本章公式</h3>
+    ${c.formulas && c.formulas.length ? `<section class="card" id="sec-f"><h3 style="margin-top:0">本章${esc(FNAME)}</h3>
       <div class="formula-list">${c.formulas.map(f => `<div class="formula-item"><b>${esc(f.name)}</b><div class="f">${esc(f.f)}</div><div class="small muted">${esc(f.note)}</div></div>`).join("")}</div></section>` : ""}
     <div class="card row">
       <label><input type="checkbox" data-action="mark-read" data-id="${c.id}" ${read[c.id] ? "checked" : ""}> 我讀完這一章了</label>
@@ -432,7 +434,7 @@ ${hasSupp(c) ? `<div class="small muted" style="margin-bottom:12px">📘 本章�
   }
 
   function viewFormulas() {
-    $app.innerHTML = `<div class="row"><h1>公式卡</h1><span class="spacer"></span>
+    $app.innerHTML = `<div class="row"><h1>${esc(FNAME)}卡</h1><span class="spacer"></span>
 <button class="btn ghost no-print" onclick="window.print()">列印</button></div>
 <p class="muted">考前快速複習用。點章節名稱可回到該章重點。</p>` +
       CURRICULUM.terms.map(t => `<h2>${esc(t.name)}</h2>` + t.chapters.filter(c => c.formulas && c.formulas.length).map(c => `

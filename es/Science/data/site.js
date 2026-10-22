@@ -20,6 +20,7 @@ window.SITE = {
   versionNote: `單元與活動名稱依據：學校公告的 115 學年度康軒版五年級自然科學教學進度總表。重點內容依該表列出的學習目標與 108 課綱學習內容（INa～INf）整理，是本站自編，不是課本原文。`,
   // 國小沒有會考
   capRange: null,
+  formulasName: "重點",
   formulasTip: "把每個單元的重點和實驗結論記熟",
   sims: []
 };
