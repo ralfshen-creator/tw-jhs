@@ -35,7 +35,7 @@ window.BUILTIN_QUESTIONS = [
     q: "下列哪一句是正確的？", options: ["He like bubble tea.", "He likes bubble tea?", "Does he likes bubble tea?", "He likes bubble tea."], answer: "D",
     explain: "肯定句主詞是 he 時 like 要加 s：He likes bubble tea.。問句用 Does 時 like 不加 s：Does he like…?" },
   { id: "n5A1-5", chapter: "5A-1", concept: "5A1-s", kind: "concept", type: "fill", difficulty: 2,
-    q: "Does your sister like hot chocolate? No, she ________.（填一個字，不用撇號，例如 doesnt 也可以）", answer: "doesnt|does not|doesn't|doesn’t",
+    q: "Does your sister like hot chocolate? No, she ________.（可以寫縮寫或兩個字；縮寫的撇號可以省略）", answer: "doesnt|does not|doesn't|doesn’t",
     explain: "問 Does…? 否定回答用 doesn't（does not）。" },
   { id: "n5A1-6", chapter: "5A-1", concept: "5A1-p", kind: "concept", type: "single", difficulty: 2,
     q: "下列哪一個字的母音和 tree 一樣，念長母音 [i]？", options: ["sea", "bed", "ten", "pet"], answer: "A",
