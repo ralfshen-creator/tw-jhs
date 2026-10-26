@@ -65,7 +65,7 @@ ${talk([["Ben", "It's hot today. Do you like cola?", "今天好熱。你喜歡�
   <li><b>ea</b>：tea、sea、eat、read</li>
 </ul>
 ${FIG.fig(FIG.phonics, "同一個長母音，有好幾種拼法")}
-<div class="box warn">提醒：同一個聲音 [i] 有不同拼法，拼字時要記清楚是 ee 還是 ea（tree 不是 trea）。</div>` }
+<div class="box warn">提醒：同一個聲音 [i] 有不同拼法，拼字時要記清楚是 ee（tree）還是 ea（tea），tree 不能拼成 trea。</div>` }
         ],
         formulas: [
           { name: "問你", f: "Do you like cola? — Yes, I do. / No, I don't.", note: "" },
