@@ -4,7 +4,9 @@
  *   - 課文、句型卡、題目題幹、解析、圖裡的英文字詞，自動加上可以點的念音標記
  *   - 母音音標（[æ]、[e]、[i]……）點了播放 audio/ 裡錄好的單獨母音，念 3 次、中間有停頓
  *     （用 Windows 內建美式英語語音 Zira 以 IPA 音標合成；[ɚ] 單獨念和 [ɝ] 一樣，所以 [ɚ] 改念例字）
- *   - 子音音標和拼讀組合（a_e、ai、er、kn……）點了念例字：語音沒辦法單獨念這些，
+ *   - 母音的拼法（a_e、ai、ay、ee、er、oi……）點了也播放它代表的單獨母音（a_e、ai、ay → [e]）；
+ *     ow 有兩種念法，看後面的音標或例字決定念 [o] 還是 [aʊ]；u_e 兩種都念（[ju] 再 [u]）
+ *   - 子音音標和子音拼法（kn、ph、bl……）點了念例字：語音沒辦法單獨念這些，
  *     所以改念「緊接在後面的例字」（例如「[æ]，例如 cap、man、tap」念 cap、man、tap）；後面沒有例字時，念內建的例字
  *   - 測驗的選項不加（點選項是作答，避免誤觸）；題幹裡的音標、拼法也不加（念例字可能念出答案）
  *   - 緊接在「不是」「不能拼成」後面的英文是錯誤示範，不念
@@ -55,13 +57,28 @@
   // 單獨母音的錄音（網站用 KK 音標；[e]、[o] 合成時用 IPA 的 eɪ、oʊ）
   const VOWEL_AUDIO = { "[æ]": "ae", "[e]": "e", "[i]": "i", "[aɪ]": "ai", "[o]": "o", "[u]": "u", "[ju]": "ju", "[ɛ]": "eh", "[ɪ]": "ih",
     "[ʌ]": "uh", "[ɝ]": "er1", "[ɑr]": "ar", "[ɔr]": "or", "[ɔɪ]": "oi", "[aʊ]": "au" };
+  // 母音拼法 → 它代表的單獨母音錄音（ow 看上下文，見 linkExamples）
+  const GRAPH_VOWEL = { a_e: ["e"], ai: ["e"], ay: ["e"], e_e: ["i"], ee: ["i"], ea: ["i"], i_e: ["ai"], ie: ["ai"], igh: ["ai"],
+    o_e: ["o"], oa: ["o"], ow: ["o"], u_e: ["ju", "u"], ue: ["u"], ui: ["u"], er: ["er1"], ir: ["er1"], ur: ["er1"],
+    ar: ["ar"], or: ["or"], oi: ["oi"], oy: ["oi"], ou: ["au"] };
+  const LONG = { a: ["e"], e: ["i"], i: ["ai"], o: ["o"], u: ["ju", "u"] };   // 拼讀表的「長 a」……
+  const vowelFiles = el => el.dataset.vowel ? el.dataset.vowel.split(",") :
+    el.classList.contains("speak-sym") ? (VOWEL_AUDIO[el.textContent] ? [VOWEL_AUDIO[el.textContent]] : GRAPH_VOWEL[el.textContent] || null) : null;
+
   let player = null;
-  function playVowel(sym, el) {
+  function playVowel(files, el) {
     synth.cancel();
-    if (player) player.pause();
-    player = new Audio(`audio/${VOWEL_AUDIO[sym]}.wav?v=20261026a`);
-    if (el) { el.classList.add("speaking"); player.onended = player.onerror = () => el.classList.remove("speaking"); }
-    player.play().catch(() => { if (el) el.classList.remove("speaking"); say(EXAMPLES[sym], el); });   // 播不出來就改念例字
+    if (player) { player.onended = null; player.pause(); }
+    if (el) el.classList.add("speaking");
+    const done = () => { if (el) el.classList.remove("speaking"); };
+    const next = i => {
+      if (i >= files.length) return done();
+      player = new Audio(`audio/${files[i]}.wav?v=20261026a`);
+      player.onended = () => next(i + 1);
+      player.onerror = done;
+      player.play().catch(() => { done(); say(textOf(el), el); });   // 播不出來就改念例字
+    };
+    next(0);
   }
 
   const GRAPH = Object.keys(EXAMPLES).filter(k => k[0] !== "[").sort((a, b) => b.length - a.length);
@@ -96,7 +113,7 @@
       while ((m = TOKEN.exec(s))) {
         let el = null;
         if (m[1] && EXAMPLES[m[1]]) el = (inStem && !VOWEL_AUDIO[m[1]]) ? null : mk("speak-sym", m[1]);   // 題幹只放單獨母音的錄音，不念例字
-        else if (m[2]) el = inStem ? null : mk("speak-sym", m[2]);
+        else if (m[2]) el = (inStem && !GRAPH_VOWEL[m[2]]) ? null : mk("speak-sym", m[2]);
         else if (m[3] && worth(m[3]) && !WRONG.test(s.slice(Math.max(0, m.index - 8), m.index))) el = mk("speak", m[3]);
         if (!el) continue;
         frag = frag || document.createDocumentFragment();
@@ -120,6 +137,7 @@
       const items = [...block.querySelectorAll(".speak, .speak-sym")];
       items.forEach((it, i) => {
         if (!it.classList.contains("speak-sym") || it.dataset.say || VOWEL_AUDIO[it.textContent]) return;
+        if (GRAPH_VOWEL[it.textContent] && it.textContent !== "ow") return;   // 母音拼法直接播單獨母音
         let j = i + 1, prev = it, lastSym = it;
         const words = [];
         // 前面是「不一定念」「不是」這類否定說法時，後面的字是反例，不拿來當例字
@@ -131,9 +149,16 @@
           words.push(items[j].textContent); prev = items[j]; j++;
           while (j < items.length && words.length < 5 && items[j].classList.contains("speak") && /^[\s、，,和]*$/.test(gapText(prev, items[j]))) { words.push(items[j].textContent); prev = items[j]; j++; }
         }
+        if (it.textContent === "ow") {
+          // ow 有兩種念法（snow、cow）：看後面的音標或例字
+          const after = document.createRange(); after.setStartAfter(it); after.setEnd(block, block.childNodes.length);
+          const near = after.toString().slice(0, 12);   // 「ow 也可能念 [aʊ]」「ow 有時念 [o]」
+          const prevText = before.toString().slice(-8);   // 「念 [aʊ] 的 ow」「ou、ow」
+          const au = lastSym.textContent === "[aʊ]" || /\[aʊ\]/.test(near) || /\[aʊ\]\s*的\s*$|ou、\s*$/.test(prevText) || /\b(cow|brown|down|how|now)\b/.test(words.join(" "));
+          it.dataset.vowel = au ? "au" : "o";
+          return;
+        }
         if (words.length) it.dataset.say = words.join(", ");
-        // 沒有例字時用內建例字；只有 ow 有兩種念法（snow、cow），要跟著後面的音標（ou、ow 都可以念 [aʊ]）
-        else if (it.textContent === "ow" && lastSym !== it && EXAMPLES[lastSym.textContent]) it.dataset.say = lastSym.textContent === "[aʊ]" ? "cow, brown" : lastSym.textContent === "[o]" ? "snow, slow" : EXAMPLES[lastSym.textContent];
       });
     });
   }
@@ -154,6 +179,10 @@
           .sort((a, b) => a.getAttribute("x") - b.getAttribute("x"))
           .map(o => wordsIn(o.textContent || "").join(" ")).filter(Boolean);
         if (row.length) { t.dataset.say = row.join(", "); t.classList.add("speak-svg"); }
+        // 母音的標題（長 a、er / ir / ur、oi / oy……）播單獨母音
+        const lg = raw.match(/^長 ([aeiou])$/), gm = raw.match(new RegExp(GRAPH_RE));
+        const files = lg ? LONG[lg[1]] : gm && GRAPH_VOWEL[gm[1]];
+        if (files && t.classList.contains("speak-svg")) t.dataset.vowel = files.join(",");
       });
       texts.forEach(t => { if (t.classList.contains("speak-svg")) { t.setAttribute("role", "button"); t.setAttribute("tabindex", "0"); } });
     });
@@ -176,7 +205,7 @@
     if (!body || body.querySelector(".speak-bar")) return;
     const bar = document.createElement("div");
     bar.className = "speak-bar no-speak";
-    bar.innerHTML = `<span>🔊 點有<span class="speak-demo">虛線</span>的英文就會念出來；點母音音標（例如 [æ]）會念 3 次單獨的音；點拼法（例如 ai）會念例字</span> <label><input type="checkbox"${slow ? " checked" : ""}> 慢速</label>`;
+    bar.innerHTML = `<span>🔊 點有<span class="speak-demo">虛線</span>的英文就會念出來；點母音音標或拼法（例如 [æ]、ai）會念 3 次單獨的母音</span> <label><input type="checkbox"${slow ? " checked" : ""}> 慢速</label>`;
     bar.querySelector("input").addEventListener("change", e => { slow = e.target.checked; try { localStorage.setItem("esen.speakSlow", slow ? "1" : "0"); } catch (err) { /* 略過 */ } });
     body.insertBefore(bar, body.firstChild);
   }
@@ -186,12 +215,14 @@
     const t = e.target.closest && e.target.closest(".speak, .speak-sym, .speak-svg");
     if (!t) return;
     e.preventDefault(); e.stopPropagation();
-    if (t.classList.contains("speak-sym") && VOWEL_AUDIO[t.textContent]) playVowel(t.textContent, t); else say(textOf(t), t);
+    const vf = vowelFiles(t);
+    if (vf) playVowel(vf, t); else say(textOf(t), t);
   }, true);
   document.addEventListener("keydown", e => {
     if ((e.key === "Enter" || e.key === " ") && isSpeak(e.target)) {
       e.preventDefault();
-      if (e.target.classList.contains("speak-sym") && VOWEL_AUDIO[e.target.textContent]) playVowel(e.target.textContent, e.target); else say(textOf(e.target), e.target);
+      const vf = vowelFiles(e.target);
+      if (vf) playVowel(vf, e.target); else say(textOf(e.target), e.target);
     }
   });
 
