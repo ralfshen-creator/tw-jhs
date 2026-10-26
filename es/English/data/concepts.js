@@ -18,7 +18,7 @@ window.CONCEPTS = {
     { id: "5A2-p", name: "長母音 i", sec: 3, kw: ["i_e", "igh", "ie"], pitfall: "igh 的 gh 不發音。" }
   ],
   "5A-3": [
-    { id: "5A3-w", name: "星期", sec: 0, kw: ["Monday", "day"], pitfall: "星期第一個字母大寫；Wednesday 的 d 不發音。" },
+    { id: "5A3-w", name: "星期", sec: 0, kw: ["Monday", "day"], pitfall: "星期第一個字母大寫；Wednesday 的第一個 d 通常不發音，day 前的 d 要念。" },
     { id: "5A3-s", name: "What day is today?", sec: 1, kw: ["What day", "Is today"], pitfall: "Is today Monday? 用 Yes, it is. / No, it's … 回答。" },
     { id: "5A3-p", name: "長母音 o", sec: 3, kw: ["o_e", "oa", "ow"], pitfall: "ow 有時念 [aʊ]（cow），這課學念 [o] 的 ow。" }
   ],

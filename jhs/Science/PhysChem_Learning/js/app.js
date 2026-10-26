@@ -151,13 +151,29 @@
   //   "decimal"            數值要相等，而且要寫成小數或整數（0.875、.875 可以；7/8、帶分數不行）
   //   "ratio-equivalent"   比例 a:b，和標準答案等值就算對（10:6 = 5:3）；含 0 的比不算
   //   "exact"              只比字串（例如有效位數、估計值要照格式寫的題目）
+  //   "english-text"       英文拼字：去掉頭尾空白、字和字之間的空白算一格，但不刪掉字裡面的空白（f o r t y 不算 forty）；
+  //                        純數字的答案仍照數值比。英語站在 site.js 用 fillFormat 設成預設，數學等站不受影響
   function ratioParts(s) {
     const m = s.match(/^(\d+(?:\.\d+)?|\.\d+):(\d+(?:\.\d+)?|\.\d+)$/);
     if (!m) return null;
     const x = parseFloat(m[1]), y = parseFloat(m[2]);
     return x > 0 && y > 0 && isFinite(x) && isFinite(y) ? [x, y] : null;
   }
+  // 英文拼字用：和 normFill 一樣換半形、轉小寫，但空白只收斂成一格
+  function normWords(s) {
+    return String(s || "")
+      .replace(/[！-～]/g, c => String.fromCharCode(c.charCodeAt(0) - 0xFEE0))
+      .replace(/[−–—]/g, "-")
+      .replace(/\s+/g, " ").trim().toLowerCase();
+  }
+  const fillFormat = q => q.answerFormat || (window.SITE && window.SITE.fillFormat) || "";
   function fillMatches(q, accepted, given) {
+    if (fillFormat(q) === "english-text") {
+      if (normWords(accepted) === normWords(given)) return true;
+      // 純數字答案（例如 600）照數值比，但不接受數字中間夾空白
+      if (/^[\d.,\/]+$/.test(normWords(accepted)) && !/\s/.test(normWords(given))) return fillMatches(Object.assign({}, q, { answerFormat: "number" }), accepted, given);
+      return false;
+    }
     const A = normFill(accepted), G = normFill(given);
     if (q.answerFormat === "ratio-equivalent") {
       const a = ratioParts(A), g = ratioParts(G);
@@ -178,6 +194,8 @@
   // 答錯時，如果數值其實相等、只是沒照指定寫法，回傳提示文字
   function formatMiss(q, given) {
     if (q.type !== "fill" || given == null || given === "" || isCorrect(q, given)) return "";
+    if (fillFormat(q) === "english-text")
+      return q.answer.split("|").some(a => normFill(a) === normFill(given)) ? "請寫成完整的單字：字母中間不要有空格，兩個字之間只空一格。" : "";
     const loose = Object.assign({}, q, { answerFormat: undefined });
     const same = q.answer.split("|").some(a => fillMatches(loose, a, given)) ||
       (q.sameValue || "").split("|").some(a => a && normFill(a) === normFill(given));

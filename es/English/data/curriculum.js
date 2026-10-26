@@ -115,7 +115,7 @@ ${talk([["Mom", "Let's make fruit salad. How many bananas do you need, Max?", "�
         sections: [
           { title: "Words 單字", html: `${FIG.fig(FIG.week, "一週七天")}
 ${words([["Sunday", "星期日"], ["Monday", "星期一"], ["Tuesday", "星期二"], ["Wednesday", "星期三"], ["Thursday", "星期四"], ["Friday", "星期五"], ["Saturday", "星期六"]])}
-<div class="box warn">易錯：Wednesday 的 d 不發音，念 [ˈwɛnzde]；Tuesday 和 Thursday 很像，Tu 是星期二、Thur 是星期四。</div>` },
+<div class="box warn">易錯：Wednesday 的第一個 d（Wed 裡的 d）通常不發音，第二個 d（day 前面）要念，念 [ˋwɛnzde]；Tuesday 和 Thursday 很像，Tu 是星期二、Thur 是星期四。</div>` },
           { title: "Sentences 句型", html: `
 <ul>
   <li>What day is today? → It's Sunday.</li>

@@ -20,6 +20,8 @@ window.SITE = {
   lessonsIntro: `依 108 課綱、<b>康軒版</b>國小英語五、六年級（115 學年度）的單元主題、單字、句型和字母拼讀編排。每個單元有單字、句型、對話和短文、字母拼讀四個部分。`,
   versionNote: `單元名稱、單字、句型和字母拼讀依據：屏東縣多所國小公告的 115 學年度五、六年級英語教學進度總表（版本：康軒；六年級是 Wonder World 7、8）。對話、短文和題目都是本站自己寫的，不是課本的故事或課文，人物名字也不同。`,
   capRange: null,
+  // 填充題比英文拼字：不刪掉字裡面的空白（f o r t y 不算 forty）；見 app.js 的 "english-text"
+  fillFormat: "english-text",
   formulasName: "句型",
   formulasTip: "把每一課的句型和單字念熟，會問也會答",
   sims: []
