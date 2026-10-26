@@ -2,7 +2,7 @@
  * 英語站專用：點英文就念出來（瀏覽器內建的英語語音，Web Speech API），不需要錄音檔。
  * 只有英語站載入這個檔案，共用引擎 app.js 不用改。
  *   - 課文、句型卡、題目題幹、解析、圖裡的英文字詞，自動加上可以點的念音標記
- *   - 母音音標（[æ]、[e]、[i]……）點了播放 audio/ 裡錄好的單獨母音，念 3 次、中間有停頓
+ *   - 母音音標（[æ]、[e]、[i]……）點了播放 audio/ 裡錄好的單獨母音（念一次）
  *     （用 Windows 內建美式英語語音 Zira 以 IPA 音標合成；[ɚ] 單獨念和 [ɝ] 一樣，所以 [ɚ] 改念例字）
  *   - 母音的拼法（a_e、ai、ay、ee、er、oi……）點了也播放它代表的單獨母音（a_e、ai、ay → [e]）；
  *     ow 有兩種念法，看後面的音標或例字決定念 [o] 還是 [aʊ]；u_e 兩種都念（[ju] 再 [u]）
@@ -73,7 +73,7 @@
     const done = () => { if (el) el.classList.remove("speaking"); };
     const next = i => {
       if (i >= files.length) return done();
-      player = new Audio(`audio/${files[i]}.wav?v=20261026a`);
+      player = new Audio(`audio/${files[i]}.wav?v=20261026b`);
       player.onended = () => next(i + 1);
       player.onerror = done;
       player.play().catch(() => { done(); say(textOf(el), el); });   // 播不出來就改念例字
@@ -205,7 +205,7 @@
     if (!body || body.querySelector(".speak-bar")) return;
     const bar = document.createElement("div");
     bar.className = "speak-bar no-speak";
-    bar.innerHTML = `<span>🔊 點有<span class="speak-demo">虛線</span>的英文就會念出來；點母音音標或拼法（例如 [æ]、ai）會念 3 次單獨的母音</span> <label><input type="checkbox"${slow ? " checked" : ""}> 慢速</label>`;
+    bar.innerHTML = `<span>🔊 點有<span class="speak-demo">虛線</span>的英文就會念出來；點母音音標或拼法（例如 [æ]、ai）會念單獨的母音</span> <label><input type="checkbox"${slow ? " checked" : ""}> 慢速</label>`;
     bar.querySelector("input").addEventListener("change", e => { slow = e.target.checked; try { localStorage.setItem("esen.speakSlow", slow ? "1" : "0"); } catch (err) { /* 略過 */ } });
     body.insertBefore(bar, body.firstChild);
   }
