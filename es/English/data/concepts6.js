@@ -5,7 +5,7 @@ Object.assign(window.CONCEPTS, {
   "6A-1": [
     { id: "6A1-w", name: "國家", sec: 0, kw: ["country", "from"], pitfall: "國家名稱第一個字母大寫；the UK、the USA 有 the。" },
     { id: "6A1-s", name: "Is he/she from…?", sec: 1, kw: ["Is he", "Is she", "from"], pitfall: "回答 Yes, he is. / No, he's not.。" },
-    { id: "6A1-p", name: "er、ir、ur", sec: 3, kw: ["er", "ir", "ur"], pitfall: "三種拼法都念 [ɚ]。" }
+    { id: "6A1-p", name: "er、ir、ur", sec: 3, kw: ["er", "ir", "ur"], pitfall: "er、ir、ur 都是受 r 影響的母音；重讀時念 [ɝ]（bird、nurse），teacher 字尾不重讀的 er 較輕 [ɚ]。" }
   ],
   "6A-2": [
     { id: "6A2-w", name: "病症", sec: 0, kw: ["ache", "cold", "fever"], pitfall: "headache、toothache、stomachache 是一個字。" },
@@ -41,7 +41,7 @@ Object.assign(window.CONCEPTS, {
     { id: "6B3-p", name: "hard c、soft c", sec: 3, kw: ["c"], pitfall: "c 在 e、i、y 前面常念 [s]（city、rice）。" }
   ],
   "6B-4": [
-    { id: "6B4-w", name: "職業與 a / an", sec: 0, kw: ["an", "job"], pitfall: "母音開頭用 an：an artist、an engineer。" },
+    { id: "6B4-w", name: "職業與 a / an", sec: 0, kw: ["an", "job"], pitfall: "開頭是母音的聲音用 an：an artist、an engineer；要聽聲音，不只看字母。" },
     { id: "6B4-s", name: "want to be", sec: 1, kw: ["want to be"], pitfall: "I want to be…；He wants to be…。" },
     { id: "6B4-p", name: "hard g、soft g", sec: 3, kw: ["g"], pitfall: "g 在 e、i、y 前面常念 [dʒ]，但 girl、get 例外。" }
   ]

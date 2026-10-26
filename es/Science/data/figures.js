@@ -66,14 +66,35 @@
 
   // ---------- 五上 2 陽光分出色光 ----------
   const prism = (() => {
+    // 光路用司乃耳定律（n₁ sin θ₁ = n₂ sin θ₂）實際計算：三稜鏡頂角朝上，白光水平射入左側面，
+    // 鏡內折射一次、從右側面射出再折射一次。玻璃折射率由紅到紫取 1.50～1.62（真實玻璃只差約 0.02，
+    // 這裡把色散放大，讓顏色分得開；偏折方向和紅少紫多的順序都和真實一樣）。所有色光都偏向底邊，沒有全反射。
+    const A = [180, 170], B = [220, 60], C = [260, 170];
+    const unit = v => { const l = Math.hypot(v[0], v[1]); return [v[0] / l, v[1] / l]; };
+    const dot = (a, b) => a[0] * b[0] + a[1] * b[1];
+    const refract = (d, n, eta) => { const c = -dot(n, d), k = 1 - eta * eta * (1 - c * c), a = eta * c - Math.sqrt(k); return unit([eta * d[0] + a * n[0], eta * d[1] + a * n[1]]); };
+    const hit = (p, v, P, Q) => { const e = [Q[0] - P[0], Q[1] - P[1]], w = [P[0] - p[0], P[1] - p[1]], den = -v[0] * e[1] + v[1] * e[0], t = (-w[0] * e[1] + w[1] * e[0]) / den; return [p[0] + t * v[0], p[1] + t * v[1]]; };
+    const nLeft = unit([-110, -40]), nRightIn = unit([-110, 40]);   // 左側面向外的法線；右側面朝鏡內的法線
+    const entry = hit([20, 110], [1, 0], A, B);
     const colors = ["#e03131", "#f76707", "#f59f00", "#2f9e44", "#1c7ed6", "#3b5bdb", "#7048e8"];
-    const names = ["紅", "橙", "黃", "綠", "藍", "靛", "紫"];
-    let s = "";
-    colors.forEach((c, i) => { const y = 70 + i * 16; s += `<line x1="240" y1="${100 + i * 3}" x2="400" y2="${y}" stroke="${c}" stroke-width="3"/>` + `<text x="408" y="${y + 5}" class="s-small">${names[i]}</text>`; });
-    return `<svg viewBox="0 0 460 220" width="460" role="img" aria-label="陽光經過三稜鏡分成好幾種顏色的色光">
-  ${L(20, 110, 200, 110, "s-white-ray")}${poly([[180, 170], [260, 170], [220, 60]], "s-prism")}${s}
-  ${T(80, 96, "陽光（白光）", "s-small")}${T(220, 194, "三稜鏡", "s-small")}
-  ${T(230, 214, "陽光是由很多種顏色的光組成；彩虹也是同樣的道理", "s-tiny")}
+    const screenX = 440;
+    let s = "", ends = [];
+    colors.forEach((c, i) => {
+      const ng = 1.50 + i * 0.02;
+      const inside = refract([1, 0], nLeft, 1 / ng);
+      const exit = hit(entry, inside, C, B);
+      const out = refract(inside, nRightIn, ng);
+      const end = [screenX, exit[1] + (screenX - exit[0]) * out[1] / out[0]];
+      ends.push(end[1]);
+      s += `<polyline points="${[entry, exit, end].map(p => r1(p[0]) + "," + r1(p[1])).join(" ")}" fill="none" stroke="${c}" stroke-width="2.5"/>`;
+    });
+    return `<svg viewBox="0 0 480 270" width="480" role="img" aria-label="陽光經過三稜鏡，各色光都向底邊偏折，紅光偏折最少、紫光最多">
+  ${poly([A, C, B], "s-prism")}${L(20, 110, entry[0], 110, "s-white-ray")}${s}
+  ${L(screenX, ends[0] - 14, screenX, ends[6] + 14, "s-line")}
+  ${T(screenX + 6, ends[0] + 4, "紅", "s-small", "start")}${T(screenX + 6, ends[6] + 4, "紫", "s-small", "start")}${T(screenX, ends[0] - 20, "白紙", "s-tiny")}
+  ${T(80, 96, "陽光（白光）", "s-small")}${T(200, 190, "三稜鏡", "s-small")}
+  ${T(240, 248, "各色光都往底邊偏折：紅光偏最少、紫光偏最多（色散有放大）", "s-tiny")}
+  ${T(240, 264, "陽光是由很多種顏色的光組成；彩虹也是同樣的道理", "s-tiny")}
 </svg>`;
   })();
 
@@ -143,7 +164,7 @@
   ${candle(110)}${P("M110,138 C100,128 104,112 110,100 C116,112 120,128 110,138 Z", "s-flame")}
   ${candle(320)}${P("M260,200 L260,90 Q260,70 280,70 L360,70 Q380,70 380,90 L380,200", "s-glass")}
   ${T(110, 226, "沒有蓋杯子：繼續燃燒", "s-small")}${T(320, 226, "蓋上杯子：過一會兒熄滅", "s-small")}
-  ${T(320, 120, "杯子裡的氧氣", "s-tiny")}${T(320, 134, "用完了", "s-tiny")}
+  ${T(320, 100, "氧氣減少，", "s-tiny")}${T(320, 115, "已不足以讓", "s-tiny")}${T(320, 130, "燭火繼續燃燒", "s-tiny")}
 </svg>`;
   })();
 

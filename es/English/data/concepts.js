@@ -13,7 +13,7 @@ window.CONCEPTS = {
     { id: "5A1-p", name: "長母音 e", sec: 3, kw: ["ee", "ea", "e_e"], pitfall: "同一個 [i] 有 e_e、ee、ea 三種拼法。" }
   ],
   "5A-2": [
-    { id: "5A2-w", name: "水果與單複數", sec: 0, kw: ["fruit", "an apple"], pitfall: "母音開頭用 an；兩個以上加 s。" },
+    { id: "5A2-w", name: "水果與單複數", sec: 0, kw: ["fruit", "an apple"], pitfall: "開頭是母音的聲音用 an（an apple），子音的聲音用 a；兩個以上加 s。" },
     { id: "5A2-s", name: "How many … need?", sec: 1, kw: ["How many", "need"], pitfall: "How many 接複數；She needs，但 does she need。" },
     { id: "5A2-p", name: "長母音 i", sec: 3, kw: ["i_e", "igh", "ie"], pitfall: "igh 的 gh 不發音。" }
   ],

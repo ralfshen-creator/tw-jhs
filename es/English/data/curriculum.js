@@ -80,9 +80,10 @@ ${FIG.fig(FIG.phonics, "同一個長母音，有好幾種拼法")}
           { title: "Words 單字", html: `
 ${words([["apple → apples", "蘋果"], ["banana → bananas", "香蕉"], ["grape → grapes", "葡萄"], ["guava → guavas", "芭樂"], ["papaya → papayas", "木瓜"], ["pineapple → pineapples", "鳳梨"], ["orange → oranges", "柳橙"]])}
 <ul>
-  <li>一個：<b>an</b> apple、<b>an</b> orange（母音開頭用 an）；<b>a</b> banana、<b>a</b> guava</li>
+  <li>一個：<b>an</b> apple、<b>an</b> orange（開頭是母音的聲音，用 an）；<b>a</b> banana、<b>a</b> guava（開頭是子音的聲音，用 a）</li>
   <li>兩個以上：字尾加 <b>s</b>，two apples、five grapes</li>
-</ul>` },
+</ul>
+<div class="box">📌 <b>給家長、老師的補充</b>：用 a 還是 an，要看後面那個字<b>開頭的聲音</b>，不只看第一個字母。例如 an hour（h 不發音，開頭是母音的聲音）、a university（u 念 [ju]，開頭是子音的聲音）。這兩個例子不在本單元的題目範圍。</div>` },
           { title: "Sentences 句型", html: `
 <ul>
   <li>How many apples do you need? → I need two apples.</li>

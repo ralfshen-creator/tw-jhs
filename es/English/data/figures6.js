@@ -11,7 +11,7 @@
   ${rows.map((r, i) => R(10, 10 + i * 40, 90, 34, "s-node", 6) + T(55, 33 + i * 40, r[0], "s-text") + r.slice(1).map((c, j) => R(110 + j * 112, 10 + i * 40, 106, 34, "s-node-main", 6) + T(163 + j * 112, 33 + i * 40, c, "s-small")).join("")).join("")}
 </svg>`;
 
-  const phonics6A = table([["er / ir / ur", "teacher", "bird", "girl", "nurse"], ["ar", "car", "farm", "star", "park"], ["or", "fork", "corn", "horse", "short"], ["oi / oy", "coin", "oil", "boy", "toy"], ["ou / ow", "house", "mouth", "cow", "brown"]], "六上的字母拼讀");
+  const phonics6A = table([["er / ir / ur", "her", "bird", "girl", "nurse"], ["ar", "car", "farm", "star", "park"], ["or", "fork", "corn", "horse", "short"], ["oi / oy", "coin", "oil", "boy", "toy"], ["ou / ow", "house", "mouth", "cow", "brown"]], "六上的字母拼讀");
   const phonics6B = table([["kn / wr / mb", "knee", "write", "lamb", "climb"], ["f / ph / gh", "fish", "phone", "photo", "laugh"], ["hard c [k]", "cat", "cup", "cake", "corn"], ["soft c [s]", "city", "face", "rice", "pencil"], ["hard g [g]", "go", "girl", "game", "bag"], ["soft g [dʒ]", "giant", "page", "orange", "giraffe"]], "六下的字母拼讀");
 
   // ---------- 看圖題：Amy 的一天 ----------

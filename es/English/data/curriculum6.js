@@ -27,10 +27,11 @@ ${talk([["Ben", "Look! The new students are here.", "看！新同學來了。"],
 <div class="box">🌏 <b>文化小知識</b>：每個國家都有自己的國旗。日本國旗是白底紅色圓形；加拿大國旗中間是一片紅色楓葉。</div>` },
           { title: "Phonics er、ir、ur", html: `
 <ul>
-  <li><b>er</b>、<b>ir</b>、<b>ur</b> 都念 [ɚ]，同一個聲音有三種拼法</li>
-  <li>er：teacher、sister、water；ir：bird、girl、shirt；ur：nurse、turtle、purple</li>
+  <li><b>er</b>、<b>ir</b>、<b>ur</b> 都是受 r 影響的母音，是同一個拼字家族。拼法和重音不同，聲音也會有輕重差別，要仔細聽範例</li>
+  <li>在重讀的地方念 [ɝ]：her、bird、girl、shirt、nurse、turtle、purple</li>
+  <li>在字尾、不重讀的 er 念得比較輕 [ɚ]：teacher、sister、water</li>
 </ul>
-${FIG.fig(FIG.phonics6A, "六上的字母拼讀")}` }
+${FIG.fig(FIG.phonics6A, "六上的字母拼讀（同一列是同一個拼字家族，不一定完全同音）")}` }
         ],
         formulas: [
           { name: "來自哪裡", f: "Where are you from? — I'm from Taiwan.", note: "" },
@@ -236,7 +237,7 @@ ${talk([["Max", "Hi! I'm Max. What do you like to do in your free time?", "嗨�
   <li>Do you want to be a writer? → Yes, I do. ／ No, I don't. I want to be a basketball player.</li>
   <li>What does he want to be? → He wants to be an engineer.</li>
 </ul>
-<div class="box warn">易錯：母音（a、e、i、o、u）發音開頭的字前面用 an：an artist、an engineer；其他用 a：a singer。</div>` },
+<div class="box warn">易錯：開頭是母音的聲音，前面用 an：an artist、an engineer；開頭是子音的聲音，用 a：a singer、a dentist。要聽開頭的聲音，不只看第一個字母（例如 an hour、a university）。</div>` },
           { title: "Talk & Read 對話和短文", html: `
 ${talk([["Lily", "What do you want to be, Ben?", "Ben，你想當什麼？"], ["Ben", "I want to be an engineer. I like to make robots.", "我想當工程師。我喜歡做機器人。"], ["Lily", "Cool! I want to be a writer. I like to write stories.", "好酷！我想當作家。我喜歡寫故事。"]])}
 <div class="box">💡 <b>想一想</b>：你喜歡做什麼事？哪些職業會用到這個興趣？</div>` },
